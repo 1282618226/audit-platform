@@ -303,32 +303,57 @@ class SemgrepScanner:
     ) -> dict[str, Any]:
         """从 Semgrep taint mode 结果中提取入口点（Source）位置。
 
-        Semgrep taint mode 输出:
-          extra.dataflow_trace.taint_source.location → 用户输入进入点
+        Semgrep 实际输出格式:
+          dataflow_trace.taint_source = ["CliLoc", [location_dict, content_string]]
+          dataflow_trace.intermediate_vars = [{"location": {...}, "content": "..."}, ...]
           item.start / item.end → 爆发点（Sink）
 
         Returns:
-            {"file": str, "line": int} 或 {}（非 taint mode 时为空）。
+            {"file": str, "line": int, "content": str, "propagation_path": [...]}
+            非 taint mode 时返回 {}。
         """
         extra = item.get("extra", {})
         trace = extra.get("dataflow_trace", {})
         if not trace:
             return {}
 
-        taint_src = trace.get("taint_source", {})
-        if not taint_src:
-            return {}
+        result: dict[str, Any] = {}
 
-        src_loc = taint_src.get("location", {})
-        if not src_loc:
-            return {}
+        # ── 解析 taint_source ──
+        taint_src = trace.get("taint_source")
+        if isinstance(taint_src, list) and len(taint_src) >= 2:
+            src_data = taint_src[1]  # [location_dict, content_string]
+            if isinstance(src_data, list) and len(src_data) >= 1:
+                src_loc = src_data[0]  # {"path": "...", "start": {"line": N, ...}, ...}
+                if isinstance(src_loc, dict):
+                    src_path = src_loc.get("path", "")
+                    src_start = src_loc.get("start", {})
+                    result["file"] = SemgrepScanner._make_relative(src_path, code_dir) if src_path else ""
+                    result["line"] = src_start.get("line", 0)
+                    if len(src_data) > 1:
+                        result["content"] = str(src_data[1]) if src_data[1] else ""
 
-        src_path = src_loc.get("path", "")
-        src_start = src_loc.get("start", {})
-        return {
-            "file": SemgrepScanner._make_relative(src_path, code_dir),
-            "line": src_start.get("line", 0),
-        }
+        # ── 解析 intermediate_vars 传播路径 ──
+        intermediate_vars = trace.get("intermediate_vars", [])
+        if isinstance(intermediate_vars, list) and intermediate_vars:
+            path: list[dict[str, Any]] = []
+            for iv in intermediate_vars:
+                if not isinstance(iv, dict):
+                    continue
+                loc = iv.get("location", {})
+                if not loc:
+                    continue
+                path.append({
+                    "file": SemgrepScanner._make_relative(
+                        loc.get("path", ""), code_dir
+                    ) if loc.get("path") else "",
+                    "line": loc.get("start", {}).get("line", 0),
+                    "content": iv.get("content", ""),
+                })
+            if path:
+                result["propagation_path"] = path
+
+        return result
 
     # ─── 条款号提取 ──────────────────────────────────────────────
 

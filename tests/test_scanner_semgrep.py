@@ -480,13 +480,17 @@ class TestTaintMode:
                 "lines": "stmt.executeQuery(query);",
                 "metadata": {"clause": "6.2.3.4"},
                 "dataflow_trace": {
-                    "taint_source": {
-                        "location": {
-                            "path": "/workspace/code/src/Login.java",
-                            "start": {"line": 42, "col": 10},
-                            "end": {"line": 42, "col": 50},
-                        }
-                    },
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "path": "/workspace/code/src/Login.java",
+                                "start": {"line": 42, "col": 10},
+                                "end": {"line": 42, "col": 50},
+                            },
+                            'req.getParameter("uid")',
+                        ],
+                    ],
                     "intermediate_vars": [],
                 },
             },
@@ -500,6 +504,7 @@ class TestTaintMode:
         entry = SemgrepScanner._extract_entry_point(item, code_dir)
         assert entry["line"] == 42
         assert "Login.java" in entry["file"]
+        assert entry.get("content") == 'req.getParameter("uid")'
 
     def test_no_taint_trace_returns_empty(self, tmp_path: Path) -> None:
         """非 taint mode 结果返回空 entry_point。"""
