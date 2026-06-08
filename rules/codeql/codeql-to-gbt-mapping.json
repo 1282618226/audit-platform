@@ -1,458 +1,787 @@
 {
-  "cpp/ql/src/Security/CWE/CWE-119/BufferOverflow.ql": {
+  "cpp/ql/src/Security/CWE/CWE-119/OverflowBuffer.ql": {
     "gb_clause": "8.2.7",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "缓冲区复制造成溢出",
-    "cwe": "CWE-119"
+    "vuln_name": "缓冲区复制造成溢出"
   },
-  "cpp/ql/src/Security/CWE/CWE-120/BufferOverflow.ql": {
+  "cpp/ql/src/Security/CWE/CWE-119/OverrunWriteProductFlow.ql": {
+    "gb_clause": "8.2.7",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "缓冲区复制造成溢出"
+  },
+  "cpp/ql/src/Security/CWE/CWE-120/OverrunWrite.ql": {
     "gb_clause": "8.2.6",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "内存缓冲区边界操作",
-    "cwe": "CWE-120"
+    "vuln_name": "内存缓冲区边界操作"
   },
-  "cpp/ql/src/Security/CWE/CWE-121/StackBasedOverflow.ql": {
-    "gb_clause": "8.2.6",
-    "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "内存缓冲区边界操作",
-    "cwe": "CWE-121"
-  },
-  "cpp/ql/src/Security/CWE/CWE-131/BufferSize.ql": {
+  "cpp/ql/src/Security/CWE/CWE-120/BadlyBoundedWrite.ql": {
     "gb_clause": "8.2.8",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "使用错误长度访问缓冲区",
-    "cwe": "CWE-131"
+    "vuln_name": "使用错误长度访问缓冲区"
   },
-  "cpp/ql/src/Security/CWE/CWE-416/UseAfterFree.ql": {
-    "gb_clause": "8.2.4",
-    "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "访问已释放内存",
-    "cwe": "CWE-416"
-  },
-  "cpp/ql/src/Security/CWE/CWE-190/IntegerOverflow.ql": {
-    "gb_clause": "7.2.3.5",
-    "gb_standard": "GB/T 34943-2017",
-    "vuln_name": "整数溢出",
-    "cwe": "CWE-190"
-  },
-  "cpp/ql/src/Security/CWE/CWE-191/IntegerUnderflow.ql": {
-    "gb_clause": "7.2.3.5",
-    "gb_standard": "GB/T 34943-2017",
-    "vuln_name": "整数溢出",
-    "cwe": "CWE-191"
-  },
-  "cpp/ql/src/Security/CWE/CWE-134/FormatString.ql": {
-    "gb_clause": "7.3.1",
-    "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "格式化字符串",
-    "cwe": "CWE-134"
-  },
-  "cpp/ql/src/Security/CWE/CWE-078/CommandInjection.ql": {
-    "gb_clause": "6.1.1.6",
-    "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "命令行注入",
-    "cwe": "CWE-78"
-  },
-  "cpp/ql/src/Security/CWE/CWE-089/SqlInjection.ql": {
-    "gb_clause": "8.3.2",
-    "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "SQL注入",
-    "cwe": "CWE-89"
-  },
-  "cpp/ql/src/Security/CWE/CWE-022/PathTraversal.ql": {
-    "gb_clause": "8.4.4",
-    "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "路径遍历",
-    "cwe": "CWE-22"
-  },
-  "cpp/ql/src/Security/CWE/CWE-457/UninitializedVariable.ql": {
-    "gb_clause": "8.1.2",
-    "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "资源或变量不安全初始化",
-    "cwe": "CWE-457"
-  },
-  "cpp/ql/src/Security/CWE/CWE-468/IncorrectPointerCast.ql": {
-    "gb_clause": "7.5.1",
-    "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "不兼容的指针类型",
-    "cwe": "CWE-468"
-  },
-  "cpp/ql/src/Security/CWE/CWE-704/TypeCast.ql": {
-    "gb_clause": "7.5.4",
-    "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "试图访问非结构体类型指针的数据域",
-    "cwe": "CWE-704"
-  },
-  "cpp/ql/src/Security/CWE/CWE-676/DangerousFunction.ql": {
+  "cpp/ql/src/Security/CWE/CWE-120/UnboundedWrite.ql": {
     "gb_clause": "8.2.6",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "内存缓冲区边界操作",
-    "cwe": "CWE-676"
+    "vuln_name": "内存缓冲区边界操作"
   },
-  "cpp/ql/src/Security/CWE/CWE-835/InfiniteLoop.ql": {
+  "cpp/ql/src/Security/CWE/CWE-120/OverrunWriteFloat.ql": {
+    "gb_clause": "8.2.6",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "内存缓冲区边界操作"
+  },
+  "cpp/ql/src/Security/CWE/CWE-120/VeryLikelyOverrunWrite.ql": {
+    "gb_clause": "8.2.7",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "缓冲区复制造成溢出"
+  },
+  "cpp/ql/src/Security/CWE/CWE-121/UnterminatedVarargsCall.ql": {
+    "gb_clause": "8.2.6",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "内存缓冲区边界操作"
+  },
+  "cpp/ql/src/Security/CWE/CWE-131/NoSpaceForZeroTerminator.ql": {
+    "gb_clause": "8.2.8",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "使用错误长度访问缓冲区"
+  },
+  "cpp/ql/src/Security/CWE/CWE-129/ImproperArrayIndexValidation.ql": {
+    "gb_clause": "8.2.8",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "使用错误长度访问缓冲区"
+  },
+  "cpp/ql/src/Security/CWE/CWE-170/ImproperNullTerminationTainted.ql": {
+    "gb_clause": "8.2.6",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "内存缓冲区边界操作"
+  },
+  "cpp/ql/src/Security/CWE/CWE-416/UseOfStringAfterLifetimeEnds.ql": {
+    "gb_clause": "8.2.4",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "访问已释放内存"
+  },
+  "cpp/ql/src/Security/CWE/CWE-416/UseOfUniquePointerAfterLifetimeEnds.ql": {
+    "gb_clause": "8.2.4",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "访问已释放内存"
+  },
+  "cpp/ql/src/Security/CWE/CWE-416/IteratorToExpiredContainer.ql": {
+    "gb_clause": "8.2.4",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "访问已释放内存"
+  },
+  "cpp/ql/src/Security/CWE/CWE-676/DangerousFunctionOverflow.ql": {
+    "gb_clause": "8.2.6",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "内存缓冲区边界操作"
+  },
+  "cpp/ql/src/Security/CWE/CWE-676/DangerousUseOfCin.ql": {
+    "gb_clause": "8.2.6",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "内存缓冲区边界操作"
+  },
+  "cpp/ql/src/Security/CWE/CWE-676/PotentiallyDangerousFunction.ql": {
+    "gb_clause": "8.2.6",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "内存缓冲区边界操作"
+  },
+  "cpp/ql/src/Security/CWE/CWE-190/IntegerOverflowTainted.ql": {
+    "gb_clause": "7.2.3.5",
+    "gb_standard": "GB/T 34943-2017",
+    "vuln_name": "整数溢出"
+  },
+  "cpp/ql/src/Security/CWE/CWE-190/ArithmeticTainted.ql": {
+    "gb_clause": "7.2.3.5",
+    "gb_standard": "GB/T 34943-2017",
+    "vuln_name": "整数溢出"
+  },
+  "cpp/ql/src/Security/CWE/CWE-190/ArithmeticUncontrolled.ql": {
+    "gb_clause": "8.1.9",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "算法复杂度攻击"
+  },
+  "cpp/ql/src/Security/CWE/CWE-190/ArithmeticWithExtremeValues.ql": {
+    "gb_clause": "7.2.3.5",
+    "gb_standard": "GB/T 34943-2017",
+    "vuln_name": "整数溢出"
+  },
+  "cpp/ql/src/Security/CWE/CWE-190/TaintedAllocationSize.ql": {
+    "gb_clause": "8.2.9",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "堆空间耗尽"
+  },
+  "cpp/ql/src/Security/CWE/CWE-190/ComparisonWithWiderType.ql": {
+    "gb_clause": "7.2.3.5",
+    "gb_standard": "GB/T 34943-2017",
+    "vuln_name": "整数溢出"
+  },
+  "cpp/ql/src/Security/CWE/CWE-191/UnsignedDifferenceExpressionComparedZero.ql": {
+    "gb_clause": "7.2.3.5",
+    "gb_standard": "GB/T 34943-2017",
+    "vuln_name": "整数溢出"
+  },
+  "cpp/ql/src/Security/CWE/CWE-193/InvalidPointerDeref.ql": {
+    "gb_clause": "7.5.5",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "指针偏移越界"
+  },
+  "cpp/ql/src/Security/CWE/CWE-835/InfiniteLoopWithUnsatisfiableExitCondition.ql": {
     "gb_clause": "8.1.8",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "无限循环",
-    "cwe": "CWE-835"
+    "vuln_name": "无限循环"
   },
-  "cpp/ql/src/Security/CWE/CWE-764/MultipleLocks.ql": {
+  "cpp/ql/src/Security/CWE/CWE-570/IncorrectAllocationErrorHandling.ql": {
+    "gb_clause": "8.1.3",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "初始化失败后未安全退出"
+  },
+  "cpp/ql/src/Security/CWE/CWE-468/IncorrectPointerScaling.ql": {
+    "gb_clause": "7.5.5",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "指针偏移越界"
+  },
+  "cpp/ql/src/Security/CWE/CWE-468/IncorrectPointerScalingChar.ql": {
+    "gb_clause": "7.5.5",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "指针偏移越界"
+  },
+  "cpp/ql/src/Security/CWE/CWE-468/IncorrectPointerScalingVoid.ql": {
+    "gb_clause": "7.5.5",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "指针偏移越界"
+  },
+  "cpp/ql/src/Security/CWE/CWE-468/SuspiciousAddWithSizeof.ql": {
+    "gb_clause": "7.5.5",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "指针偏移越界"
+  },
+  "cpp/ql/src/Security/CWE/CWE-704/WcharCharConversion.ql": {
+    "gb_clause": "7.5.4",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "试图访问非结构体类型指针的数据域"
+  },
+  "cpp/ql/src/Security/CWE/CWE-843/TypeConfusion.ql": {
+    "gb_clause": "7.5.4",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "试图访问非结构体类型指针的数据域"
+  },
+  "cpp/ql/src/Security/CWE/CWE-764/TwiceLocked.ql": {
     "gb_clause": "7.2.3",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "共享资源的并发安全",
-    "cwe": "CWE-764"
+    "vuln_name": "共享资源的并发安全"
   },
-  "cpp/ql/src/Security/CWE/CWE-367/TOCTOU.ql": {
+  "cpp/ql/src/Security/CWE/CWE-764/LockOrderCycle.ql": {
     "gb_clause": "7.2.3",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "共享资源的并发安全",
-    "cwe": "CWE-367"
+    "vuln_name": "共享资源的并发安全"
   },
-  "cpp/ql/src/Security/CWE/CWE-079/Xss.ql": {
+  "cpp/ql/src/Security/CWE/CWE-764/UnreleasedLock.ql": {
+    "gb_clause": "7.2.3",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "共享资源的并发安全"
+  },
+  "cpp/ql/src/Security/CWE/CWE-367/TOCTOUFilesystemRace.ql": {
+    "gb_clause": "7.2.3",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "共享资源的并发安全"
+  },
+  "cpp/ql/src/Security/CWE/CWE-457/ConditionallyUninitializedVariable.ql": {
+    "gb_clause": "8.1.2",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "资源或变量不安全初始化"
+  },
+  "cpp/ql/src/Security/CWE/CWE-253/HResultBooleanConversion.ql": {
+    "gb_clause": "8.1.3",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "初始化失败后未安全退出"
+  },
+  "cpp/ql/src/Security/CWE/CWE-014/MemsetMayBeDeleted.ql": {
+    "gb_clause": "8.2.5",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "数据/内存布局"
+  },
+  "cpp/ql/src/Security/CWE/CWE-078/ExecTainted.ql": {
+    "gb_clause": "6.1.1.6",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "命令行注入"
+  },
+  "cpp/ql/src/Security/CWE/CWE-089/SqlTainted.ql": {
+    "gb_clause": "8.3.2",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "SQL注入"
+  },
+  "cpp/ql/src/Security/CWE/CWE-022/TaintedPath.ql": {
+    "gb_clause": "8.4.4",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "路径遍历"
+  },
+  "cpp/ql/src/Security/CWE/CWE-079/CgiXss.ql": {
     "gb_clause": "6.1.2.1",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "跨站脚本",
-    "cwe": "CWE-79"
+    "vuln_name": "跨站脚本"
   },
-  "cpp/ql/src/Security/CWE/CWE-311/MissingEncryption.ql": {
-    "gb_clause": "8.5.4",
+  "cpp/ql/src/Security/CWE/CWE-611/XXE.ql": {
+    "gb_clause": "6.1.1.5",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "通信安全",
-    "cwe": "CWE-311"
+    "vuln_name": "对HTTP头Web脚本特殊元素处理"
   },
-  "cpp/ql/src/Security/CWE/CWE-326/WeakEncryption.ql": {
+  "cpp/ql/src/Security/CWE/CWE-114/UncontrolledProcessOperation.ql": {
+    "gb_clause": "6.1.1.6",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "命令行注入"
+  },
+  "cpp/ql/src/Security/CWE/CWE-428/UnsafeCreateProcessCall.ql": {
+    "gb_clause": "6.1.1.6",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "命令行注入"
+  },
+  "cpp/ql/src/Security/CWE/CWE-020/CountUntrustedDataToExternalAPI.ql": {
+    "gb_clause": "6.1.1.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "关键状态数据外部可控"
+  },
+  "cpp/ql/src/Security/CWE/CWE-020/IRCountUntrustedDataToExternalAPI.ql": {
+    "gb_clause": "6.1.1.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "关键状态数据外部可控"
+  },
+  "cpp/ql/src/Security/CWE/CWE-020/IRUntrustedDataToExternalAPI.ql": {
+    "gb_clause": "6.1.1.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "关键状态数据外部可控"
+  },
+  "cpp/ql/src/Security/CWE/CWE-020/UntrustedDataToExternalAPI.ql": {
+    "gb_clause": "6.1.1.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "关键状态数据外部可控"
+  },
+  "cpp/ql/src/Security/CWE/CWE-134/UncontrolledFormatString.ql": {
+    "gb_clause": "7.3.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "格式化字符串"
+  },
+  "cpp/ql/src/Security/CWE/CWE-807/TaintedCondition.ql": {
+    "gb_clause": "6.1.1.10",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "条件比较不充分"
+  },
+  "cpp/ql/src/Security/CWE/CWE-326/InsufficientKeySize.ql": {
     "gb_clause": "6.2.1.1",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "密码安全",
-    "cwe": "CWE-326"
+    "vuln_name": "密码安全"
   },
-  "cpp/ql/src/Security/CWE/CWE-427/UnsafeSearchPath.ql": {
-    "gb_clause": "7.2.2.1",
-    "gb_standard": "GB/T 34943-2017",
-    "vuln_name": "不可信的搜索路径",
-    "cwe": "CWE-427"
+  "cpp/ql/src/Security/CWE/CWE-327/BrokenCryptoAlgorithm.ql": {
+    "gb_clause": "6.2.1.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "密码安全"
+  },
+  "cpp/ql/src/Security/CWE/CWE-327/OpenSslHeartbleed.ql": {
+    "gb_clause": "8.5.4",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "通信安全"
+  },
+  "cpp/ql/src/Security/CWE/CWE-311/CleartextBufferWrite.ql": {
+    "gb_clause": "6.2.2.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "敏感信息暴露"
+  },
+  "cpp/ql/src/Security/CWE/CWE-311/CleartextFileWrite.ql": {
+    "gb_clause": "6.2.2.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "敏感信息暴露"
+  },
+  "cpp/ql/src/Security/CWE/CWE-311/CleartextTransmission.ql": {
+    "gb_clause": "8.5.4",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "通信安全"
+  },
+  "cpp/ql/src/Security/CWE/CWE-313/CleartextSqliteDatabase.ql": {
+    "gb_clause": "6.2.2.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "敏感信息暴露"
+  },
+  "cpp/ql/src/Security/CWE/CWE-319/UseOfHttp.ql": {
+    "gb_clause": "8.5.4",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "通信安全"
+  },
+  "cpp/ql/src/Security/CWE/CWE-295/SSLResultConflation.ql": {
+    "gb_clause": "8.5.4",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "通信安全"
+  },
+  "cpp/ql/src/Security/CWE/CWE-295/SSLResultNotChecked.ql": {
+    "gb_clause": "8.5.4",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "通信安全"
+  },
+  "cpp/ql/src/Security/CWE/CWE-732/DoNotCreateWorldWritable.ql": {
+    "gb_clause": "8.1.6",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "将资源暴露给非授权范围"
+  },
+  "cpp/ql/src/Security/CWE/CWE-732/OpenCallMissingModeArgument.ql": {
+    "gb_clause": "8.1.6",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "将资源暴露给非授权范围"
+  },
+  "cpp/ql/src/Security/CWE/CWE-732/UnsafeDaclSecurityDescriptor.ql": {
+    "gb_clause": "8.1.6",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "将资源暴露给非授权范围"
+  },
+  "cpp/ql/src/Security/CWE/CWE-497/ExposedSystemData.ql": {
+    "gb_clause": "6.2.2.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "敏感信息暴露"
+  },
+  "cpp/ql/src/Security/CWE/CWE-497/PotentiallyExposedSystemData.ql": {
+    "gb_clause": "6.2.2.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "敏感信息暴露"
+  },
+  "cpp/ql/src/Security/CWE/CWE-290/AuthenticationBypass.ql": {
+    "gb_clause": "6.3.3.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "权限访问控制"
   },
   "java/ql/src/Security/CWE/CWE-089/SqlTainted.ql": {
     "gb_clause": "6.2.3.4",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "SQL注入",
-    "cwe": "CWE-89"
+    "vuln_name": "SQL注入"
   },
   "java/ql/src/Security/CWE/CWE-089/SqlConcatenated.ql": {
     "gb_clause": "6.2.3.4",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "SQL注入（字符串拼接）",
-    "cwe": "CWE-89"
+    "vuln_name": "SQL注入"
   },
   "java/ql/src/Security/CWE/CWE-078/ExecTainted.ql": {
     "gb_clause": "6.2.3.3",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "命令注入",
-    "cwe": "CWE-78"
+    "vuln_name": "命令注入"
   },
   "java/ql/src/Security/CWE/CWE-078/ExecRelative.ql": {
     "gb_clause": "6.2.3.3",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "命令注入（相对路径）",
-    "cwe": "CWE-78"
+    "vuln_name": "命令注入"
   },
   "java/ql/src/Security/CWE/CWE-078/ExecTaintedEnvironment.ql": {
     "gb_clause": "6.2.3.3",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "命令注入（环境变量）",
-    "cwe": "CWE-78"
+    "vuln_name": "命令注入"
   },
   "java/ql/src/Security/CWE/CWE-079/XSS.ql": {
     "gb_clause": "6.2.8.1",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "跨站脚本",
-    "cwe": "CWE-79"
+    "vuln_name": "跨站脚本"
   },
   "java/ql/src/Security/CWE/CWE-022/TaintedPath.ql": {
     "gb_clause": "6.2.3.2",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "路径遍历",
-    "cwe": "CWE-22"
+    "vuln_name": "路径遍历"
   },
   "java/ql/src/Security/CWE/CWE-022/ZipSlip.ql": {
     "gb_clause": "6.2.3.2",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "Zip Slip路径遍历",
-    "cwe": "CWE-22"
+    "vuln_name": "路径遍历"
   },
   "java/ql/src/Security/CWE/CWE-094/GroovyInjection.ql": {
     "gb_clause": "6.2.3.5",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "代码注入（Groovy）",
-    "cwe": "CWE-94"
+    "vuln_name": "代码注入"
   },
   "java/ql/src/Security/CWE/CWE-094/InsecureBeanValidation.ql": {
     "gb_clause": "6.2.3.5",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "Bean验证注入",
-    "cwe": "CWE-94"
+    "vuln_name": "代码注入"
+  },
+  "java/ql/src/Security/CWE/CWE-094/ArbitraryApkInstallation.ql": {
+    "gb_clause": "6.2.3.5",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "代码注入"
   },
   "java/ql/src/Security/CWE/CWE-090/LdapInjection.ql": {
     "gb_clause": "6.2.3.12",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "LDAP注入",
-    "cwe": "CWE-90"
+    "vuln_name": "LDAP注入"
   },
   "java/ql/src/Security/CWE/CWE-643/XPathInjection.ql": {
     "gb_clause": "6.2.3.12",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "XPath注入",
-    "cwe": "CWE-643"
+    "vuln_name": "XPath注入"
   },
   "java/ql/src/Security/CWE/CWE-917/OgnlInjection.ql": {
     "gb_clause": "6.2.3.5",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "OGNL表达式注入",
-    "cwe": "CWE-917"
+    "vuln_name": "代码注入"
   },
   "java/ql/src/Security/CWE/CWE-611/XXE.ql": {
     "gb_clause": "6.2.3.12",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "XML外部实体注入",
-    "cwe": "CWE-611"
+    "vuln_name": "XML外部实体注入"
   },
   "java/ql/src/Security/CWE/CWE-918/RequestForgery.ql": {
     "gb_clause": "6.2.8.2",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "SSRF服务端请求伪造",
-    "cwe": "CWE-918"
+    "vuln_name": "SSRF"
   },
   "java/ql/src/Security/CWE/CWE-113/ResponseSplitting.ql": {
     "gb_clause": "6.2.8.3",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "HTTP响应拆分",
-    "cwe": "CWE-113"
+    "vuln_name": "HTTP响应拆分"
   },
   "java/ql/src/Security/CWE/CWE-113/NettyResponseSplitting.ql": {
     "gb_clause": "6.2.8.3",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "Netty响应拆分",
-    "cwe": "CWE-113"
+    "vuln_name": "HTTP响应拆分"
   },
   "java/ql/src/Security/CWE/CWE-117/LogInjection.ql": {
     "gb_clause": "6.2.3.8",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "日志注入",
-    "cwe": "CWE-117"
+    "vuln_name": "信息通过日志泄露"
   },
   "java/ql/src/Security/CWE/CWE-326/InsufficientKeySize.ql": {
     "gb_clause": "6.2.6.7",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "使用已破解的加密算法（密钥长度不足）",
-    "cwe": "CWE-326"
+    "vuln_name": "使用已破解的加密算法"
   },
   "java/ql/src/Security/CWE/CWE-327/BrokenCryptoAlgorithm.ql": {
     "gb_clause": "6.2.6.7",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "使用已破解的加密算法",
-    "cwe": "CWE-327"
+    "vuln_name": "使用已破解的加密算法"
   },
   "java/ql/src/Security/CWE/CWE-327/MaybeBrokenCryptoAlgorithm.ql": {
     "gb_clause": "6.2.6.7",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "可能的安全加密算法问题",
-    "cwe": "CWE-327"
+    "vuln_name": "使用已破解的加密算法"
   },
   "java/ql/src/Security/CWE/CWE-330/InsecureRandomness.ql": {
     "gb_clause": "6.2.6.10",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "不充分的随机数",
-    "cwe": "CWE-330"
+    "vuln_name": "不充分的随机数"
   },
   "java/ql/src/Security/CWE/CWE-522/InsecureBasicAuth.ql": {
     "gb_clause": "6.2.6.1",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "明文传输认证信息",
-    "cwe": "CWE-522"
+    "vuln_name": "明文存储口令"
   },
   "java/ql/src/Security/CWE/CWE-522/InsecureLdapAuth.ql": {
     "gb_clause": "6.2.6.1",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "LDAP认证信息明文传输",
-    "cwe": "CWE-522"
+    "vuln_name": "明文存储口令"
   },
   "java/ql/src/Security/CWE/CWE-798/HardcodedCredentialsApiCall.ql": {
     "gb_clause": "6.2.6.3",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "口令硬编码（API调用）",
-    "cwe": "CWE-798"
+    "vuln_name": "口令硬编码"
   },
   "java/ql/src/Security/CWE/CWE-798/HardcodedCredentialsComparison.ql": {
     "gb_clause": "6.2.6.3",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "口令硬编码（比较）",
-    "cwe": "CWE-798"
+    "vuln_name": "口令硬编码"
   },
   "java/ql/src/Security/CWE/CWE-798/HardcodedCredentialsSourceCall.ql": {
     "gb_clause": "6.2.6.3",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "口令硬编码（源码中）",
-    "cwe": "CWE-798"
+    "vuln_name": "口令硬编码"
   },
   "java/ql/src/Security/CWE/CWE-614/InsecureCookie.ql": {
     "gb_clause": "6.2.6.17",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "Cookie未设置安全属性",
-    "cwe": "CWE-614"
+    "vuln_name": "Cookie未设置安全属性"
   },
   "java/ql/src/Security/CWE/CWE-295/InsecureTrustManager.ql": {
     "gb_clause": "6.2.6.6",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "不安全的证书信任管理器",
-    "cwe": "CWE-295"
+    "vuln_name": "敏感信息明文传输"
+  },
+  "java/ql/src/Security/CWE/CWE-295/AndroidMissingCertificatePinning.ql": {
+    "gb_clause": "6.2.6.6",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "敏感信息明文传输"
+  },
+  "java/ql/src/Security/CWE/CWE-295/ImproperWebViewCertificateValidation.ql": {
+    "gb_clause": "6.2.6.6",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "敏感信息明文传输"
   },
   "java/ql/src/Security/CWE/CWE-297/UnsafeHostnameVerification.ql": {
     "gb_clause": "6.2.6.6",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "不安全的主机名验证",
-    "cwe": "CWE-297"
+    "vuln_name": "敏感信息明文传输"
+  },
+  "java/ql/src/Security/CWE/CWE-297/InsecureJavaMail.ql": {
+    "gb_clause": "6.2.6.6",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "敏感信息明文传输"
   },
   "java/ql/src/Security/CWE/CWE-319/HttpsUrls.ql": {
     "gb_clause": "6.2.6.6",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "敏感信息明文传输",
-    "cwe": "CWE-319"
+    "vuln_name": "敏感信息明文传输"
   },
   "java/ql/src/Security/CWE/CWE-319/UseSSL.ql": {
     "gb_clause": "6.2.6.6",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "未使用SSL",
-    "cwe": "CWE-319"
+    "vuln_name": "敏感信息明文传输"
+  },
+  "java/ql/src/Security/CWE/CWE-319/UseSSLSocketFactories.ql": {
+    "gb_clause": "6.2.6.6",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "敏感信息明文传输"
   },
   "java/ql/src/Security/CWE/CWE-352/CsrfUnprotectedRequestType.ql": {
     "gb_clause": "6.2.8.2",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "跨站请求伪造",
-    "cwe": "CWE-352"
+    "vuln_name": "跨站请求伪造"
   },
   "java/ql/src/Security/CWE/CWE-352/SpringCSRFProtection.ql": {
     "gb_clause": "6.2.8.2",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "Spring CSRF防护缺失",
-    "cwe": "CWE-352"
+    "vuln_name": "跨站请求伪造"
   },
   "java/ql/src/Security/CWE/CWE-601/UrlRedirect.ql": {
     "gb_clause": "6.2.8.4",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "开放重定向",
-    "cwe": "CWE-601"
+    "vuln_name": "开放重定向"
   },
   "java/ql/src/Security/CWE/CWE-502/UnsafeDeserialization.ql": {
     "gb_clause": "6.2.5.1",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "不安全的反序列化",
-    "cwe": "CWE-502"
+    "vuln_name": "不安全的反序列化"
   },
   "java/ql/src/Security/CWE/CWE-807/ConditionalBypass.ql": {
     "gb_clause": "6.2.6.4",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "依赖不可信条件绕过认证",
-    "cwe": "CWE-807"
+    "vuln_name": "条件绕过"
   },
   "java/ql/src/Security/CWE/CWE-807/TaintedPermissionsCheck.ql": {
     "gb_clause": "6.2.6.4",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "受污染的权限检查",
-    "cwe": "CWE-807"
-  },
-  "java/ql/src/Security/CWE/CWE-020/UntrustedDataToExternalAPI.ql": {
-    "gb_clause": "6.2.3.1",
-    "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "不可信数据传给外部API",
-    "cwe": "CWE-20"
+    "vuln_name": "权限检查绕过"
   },
   "java/ql/src/Security/CWE/CWE-020/ExternalAPIsUsedWithUntrustedData.ql": {
     "gb_clause": "6.2.3.1",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "外部API使用不可信数据",
-    "cwe": "CWE-20"
+    "vuln_name": "不可信数据"
+  },
+  "java/ql/src/Security/CWE/CWE-020/UntrustedDataToExternalAPI.ql": {
+    "gb_clause": "6.2.3.1",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "不可信数据"
+  },
+  "java/ql/src/Security/CWE/CWE-020/OverlyLargeRange.ql": {
+    "gb_clause": "6.2.3.11",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "未检查的输入作为循环条件"
   },
   "java/ql/src/Security/CWE/CWE-312/CleartextStorageAndroidDatabase.ql": {
     "gb_clause": "6.2.6.1",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "明文存储敏感数据（数据库）",
-    "cwe": "CWE-312"
+    "vuln_name": "明文存储口令"
   },
   "java/ql/src/Security/CWE/CWE-312/CleartextStorageAndroidFilesystem.ql": {
     "gb_clause": "6.2.6.1",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "明文存储敏感数据（文件系统）",
-    "cwe": "CWE-312"
+    "vuln_name": "明文存储口令"
+  },
+  "java/ql/src/Security/CWE/CWE-312/AllowBackupAttributeEnabled.ql": {
+    "gb_clause": "6.2.6.1",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "明文存储口令"
   },
   "java/ql/src/Security/CWE/CWE-829/InsecureDependencyResolution.ql": {
     "gb_clause": "6.2.2.1",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "不安全的依赖解析",
-    "cwe": "CWE-829"
+    "vuln_name": "不可信的搜索路径"
   },
   "java/ql/src/Security/CWE/CWE-833/LockOrderInconsistency.ql": {
     "gb_clause": "6.2.7.1",
     "gb_standard": "GB/T 34944-2017",
-    "vuln_name": "锁顺序不一致",
-    "cwe": "CWE-833"
+    "vuln_name": "锁顺序不一致"
   },
-  "java/ql/src/Security/CWE/CWE-134/FormatString.ql": {
+  "java/ql/src/Security/CWE/CWE-134/ExternallyControlledFormatString.ql": {
     "gb_clause": "7.3.1",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "格式化字符串",
-    "cwe": "CWE-134"
+    "vuln_name": "格式化字符串"
   },
   "java/ql/src/Security/CWE/CWE-190/ArithmeticTainted.ql": {
     "gb_clause": "8.1.9",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "算法逻辑问题",
-    "cwe": "CWE-190"
+    "vuln_name": "算法复杂度攻击"
   },
   "java/ql/src/Security/CWE/CWE-835/InfiniteLoop.ql": {
     "gb_clause": "8.1.8",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "无限循环",
-    "cwe": "CWE-835"
+    "vuln_name": "无限循环"
   },
-  "java/ql/src/Security/CWE/CWE-367/TOCTOU.ql": {
+  "java/ql/src/Security/CWE/CWE-367/TOCTOURace.ql": {
     "gb_clause": "7.2.3",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "竞态条件",
-    "cwe": "CWE-367"
+    "vuln_name": "共享资源的并发安全"
   },
-  "java/ql/src/Security/CWE/CWE-676/DangerousFunction.ql": {
+  "java/ql/src/Security/CWE/CWE-676/PotentiallyDangerousFunction.ql": {
     "gb_clause": "8.2.6",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "危险函数调用",
-    "cwe": "CWE-676"
+    "vuln_name": "内存缓冲区边界操作"
   },
-  "java/ql/src/Security/CWE/CWE-489/ActiveDebugCode.ql": {
+  "java/ql/src/Security/CWE/CWE-489/DebuggableAttributeEnabled.ql": {
     "gb_clause": "9.1",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "遗留调试代码",
-    "cwe": "CWE-489"
+    "vuln_name": "遗留调试代码"
+  },
+  "java/ql/src/Security/CWE/CWE-489/WebviewDebuggingEnabled.ql": {
+    "gb_clause": "9.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "遗留调试代码"
   },
   "java/ql/src/Security/CWE/CWE-501/TrustBoundaryViolation.ql": {
     "gb_clause": "6.1.1.15",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "数据信任边界违背",
-    "cwe": "CWE-501"
+    "vuln_name": "数据信任边界违背"
   },
-  "java/ql/src/Security/CWE/CWE-524/CleartextStorage.ql": {
+  "java/ql/src/Security/CWE/CWE-524/SensitiveKeyboardCache.ql": {
     "gb_clause": "6.2.2.1",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "敏感信息暴露",
-    "cwe": "CWE-524"
+    "vuln_name": "敏感信息暴露"
   },
-  "java/ql/src/Security/CWE/CWE-532/InfoExposureLog.ql": {
+  "java/ql/src/Security/CWE/CWE-532/SensitiveInfoLog.ql": {
     "gb_clause": "6.4.2",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "日志信息丢失或遗漏",
-    "cwe": "CWE-532"
+    "vuln_name": "信息丢失或遗漏"
   },
-  "java/ql/src/Security/CWE/CWE-552/UnsafeFileUpload.ql": {
+  "java/ql/src/Security/CWE/CWE-552/UrlForward.ql": {
     "gb_clause": "8.4.2",
     "gb_standard": "GB/T 39412-2020",
-    "vuln_name": "不安全的文件上传",
-    "cwe": "CWE-552"
+    "vuln_name": "不安全的临时文件"
+  },
+  "java/ql/src/Security/CWE/CWE-129/ImproperValidationOfArrayIndex.ql": {
+    "gb_clause": "6.2.3.11",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "未检查的输入作为循环条件"
+  },
+  "java/ql/src/Security/CWE/CWE-730/RegexInjection.ql": {
+    "gb_clause": "6.2.3.5",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "代码注入"
+  },
+  "java/ql/src/Security/CWE/CWE-749/UnsafeAndroidAccess.ql": {
+    "gb_clause": "8.1.6",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "将资源暴露给非授权范围"
+  },
+  "java/ql/src/Security/CWE/CWE-925/ImproperIntentVerification.ql": {
+    "gb_clause": "6.2.6.4",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "依赖referer字段"
+  },
+  "java/ql/src/Security/CWE/CWE-940/AndroidIntentRedirection.ql": {
+    "gb_clause": "6.2.8.4",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "开放重定向"
+  },
+  "java/ql/src/Security/CWE/CWE-074/JndiInjection.ql": {
+    "gb_clause": "6.2.3.5",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "代码注入"
+  },
+  "java/ql/src/Security/CWE/CWE-074/XsltInjection.ql": {
+    "gb_clause": "6.2.3.5",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "代码注入"
+  },
+  "java/ql/src/Security/CWE/CWE-1104/MavenPomDependsOnBintray.ql": {
+    "gb_clause": "6.2.2.1",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "不可信的搜索路径"
+  },
+  "java/ql/src/Security/CWE/CWE-1204/StaticInitializationVector.ql": {
+    "gb_clause": "6.2.6.9",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "密码分组链接模式未使用随机初始化矢量"
+  },
+  "java/ql/src/Security/CWE/CWE-200/SpringBootActuators.ql": {
+    "gb_clause": "6.2.2.1",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "敏感信息暴露"
+  },
+  "java/ql/src/Security/CWE/CWE-200/TempDirLocalInformationDisclosure.ql": {
+    "gb_clause": "6.2.2.1",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "敏感信息暴露"
+  },
+  "java/ql/src/Security/CWE/CWE-209/StackTraceExposure.ql": {
+    "gb_clause": "6.2.3.7",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "信息通过错误消息泄露"
+  },
+  "java/ql/src/Security/CWE/CWE-209/SensitiveDataExposureThroughErrorMessage.ql": {
+    "gb_clause": "6.2.3.7",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "信息通过错误消息泄露"
+  },
+  "java/ql/src/Security/CWE/CWE-266/IntentUriPermissionManipulation.ql": {
+    "gb_clause": "6.3.3.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "权限访问控制"
+  },
+  "java/ql/src/Security/CWE/CWE-273/UnsafeCertTrust.ql": {
+    "gb_clause": "6.2.6.6",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "敏感信息明文传输"
+  },
+  "java/ql/src/Security/CWE/CWE-287/AndroidInsecureKeys.ql": {
+    "gb_clause": "6.2.6.3",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "口令硬编码"
+  },
+  "java/ql/src/Security/CWE/CWE-335/PredictableSeed.ql": {
+    "gb_clause": "6.2.6.10",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "不充分的随机数"
+  },
+  "java/ql/src/Security/CWE/CWE-338/JHipsterGeneratedPRNG.ql": {
+    "gb_clause": "6.2.6.10",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "不充分的随机数"
+  },
+  "java/ql/src/Security/CWE/CWE-347/MissingJWTSignatureCheck.ql": {
+    "gb_clause": "6.2.6.8",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "可逆的散列算法"
+  },
+  "java/ql/src/Security/CWE/CWE-421/SocketAuthRace.ql": {
+    "gb_clause": "7.2.3",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "共享资源的并发安全"
+  },
+  "java/ql/src/Security/CWE/CWE-441/UnsafeContentUriResolution.ql": {
+    "gb_clause": "6.2.6.4",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "依赖不可信条件"
+  },
+  "java/ql/src/Security/CWE/CWE-470/FragmentInjection.ql": {
+    "gb_clause": "6.2.3.5",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "代码注入"
+  },
+  "java/ql/src/Security/CWE/CWE-681/NumericCastTainted.ql": {
+    "gb_clause": "7.1.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "泛型和非泛型数据类型"
+  },
+  "java/ql/src/Security/CWE/CWE-780/RsaWithoutOaep.ql": {
+    "gb_clause": "6.2.6.19",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "RSA算法未使用最优非对称加密填充"
+  },
+  "java/ql/src/Security/CWE/CWE-926/ContentProviderIncompletePermissions.ql": {
+    "gb_clause": "6.3.3.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "权限访问控制"
+  },
+  "java/ql/src/Security/CWE/CWE-927/ImplicitPendingIntents.ql": {
+    "gb_clause": "6.2.2.1",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "敏感信息暴露"
   }
 }
