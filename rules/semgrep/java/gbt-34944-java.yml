@@ -255,9 +255,24 @@ rules:
       【GB/T 34944-2017 6.2.6.3】口令/密钥硬编码
     patterns:
       - pattern-either:
-          - pattern: $PWD.equals($STR)
-          - pattern: $STR.equals($PWD)
-          - pattern: String $PWD = $STR;
+          # 字符串字面量赋值给密码相关变量
+          - patterns:
+              - pattern: String $VAR = $STR;
+              - metavariable-regex:
+                  metavariable: $VAR
+                  regex: (?i).*(password|pwd|secret|token|credential|apikey|api_key|passwd|key).*
+          # 硬编码值直接传入密码相关参数
+          - patterns:
+              - pattern: $FUNC(..., $STR, ...)
+              - metavariable-regex:
+                  metavariable: $FUNC
+                  regex: (?i).*(password|pwd|secret|setCredential).*
+      # 排除来自动态来源的赋值（不是硬编码）
+      - pattern-not: String $VAR = $REQ.getParameter(...)
+      - pattern-not: String $VAR = $CONFIG.getProperty(...)
+      - pattern-not: String $VAR = $OBJ.getProperty(...)
+      - pattern-not: String $VAR = $MAP.get(...)
+      - pattern-not: String $VAR = $SYS.getenv(...)
     metadata:
       gb_standard: GB/T 34944-2017
       gb_clause: '6.2.6.3'
@@ -271,7 +286,21 @@ rules:
     message: >
       【GB/T 34944-2017 6.2.6.7】使用已破解或危险的加密算法
     patterns:
-      - pattern: Cipher.getInstance($ALG)
+      - pattern-either:
+          # 已知不安全算法（字面量）
+          - pattern: Cipher.getInstance("DES")
+          - pattern: Cipher.getInstance("DESede")
+          - pattern: Cipher.getInstance("RC2")
+          - pattern: Cipher.getInstance("RC4")
+          - pattern: Cipher.getInstance("MD2")
+          - pattern: Cipher.getInstance("IDEA")
+          - pattern: Cipher.getInstance("Blowfish")
+          # 动态算法名但含不安全关键词
+          - patterns:
+              - pattern: Cipher.getInstance($ALG)
+              - metavariable-regex:
+                  metavariable: $ALG
+                  regex: (?i).*(DES|RC2|RC4|MD2|IDEA|Blowfish).*
     metadata:
       gb_standard: GB/T 34944-2017
       gb_clause: '6.2.6.7'
@@ -285,7 +314,15 @@ rules:
     message: >
       【GB/T 34944-2017 6.2.6.8】可逆的散列算法
     patterns:
-      - pattern: MessageDigest.getInstance($ALG)
+      - pattern-either:
+          - pattern: MessageDigest.getInstance("MD5")
+          - pattern: MessageDigest.getInstance("SHA-1")
+          - pattern: MessageDigest.getInstance("SHA")
+          - patterns:
+              - pattern: MessageDigest.getInstance($ALG)
+              - metavariable-regex:
+                  metavariable: $ALG
+                  regex: (?i).*(MD5|SHA-1|SHA1).*
     metadata:
       gb_standard: GB/T 34944-2017
       gb_clause: '6.2.6.8'
@@ -331,7 +368,14 @@ rules:
     message: >
       【GB/T 34944-2017 6.2.6.19】RSA PKCS1Padding
     patterns:
-      - pattern: Cipher.getInstance($ALG)
+      - pattern-either:
+          - pattern: Cipher.getInstance("RSA")
+          - pattern: Cipher.getInstance("RSA/ECB/PKCS1Padding")
+          - patterns:
+              - pattern: Cipher.getInstance($ALG)
+              - metavariable-regex:
+                  metavariable: $ALG
+                  regex: (?i)RSA
     metadata:
       gb_standard: GB/T 34944-2017
       gb_clause: '6.2.6.19'
@@ -435,14 +479,17 @@ rules:
   # 6.2.3.8 信息通过服务器日志文件泄露
   - id: gbt-34944-6.2.3.8-vuln
     languages: [java]
-    severity: ERROR
+    severity: WARNING
     message: >
       【GB/T 34944-2017 6.2.3.8】信息通过服务器日志文件泄露
     patterns:
       - pattern-either:
-          - pattern: $LOG.info($PW)
-          - pattern: $LOG.debug($PW)
-          - pattern: $LOG.warn($PW)
+          # 日志中包含请求参数(password/pwd/token等)
+          - patterns:
+              - pattern: $LOGGER.$LEVEL($REQ.getParameter($PNAME))
+              - metavariable-regex:
+                  metavariable: $PNAME
+                  regex: (?i).*(password|pwd|passwd|token|secret).*
     metadata:
       gb_standard: GB/T 34944-2017
       gb_clause: "6.2.3.8"
@@ -487,8 +534,14 @@ rules:
       【GB/T 34944-2017 6.2.8.5】依赖外部提供的文件的名称或扩展名
     patterns:
       - pattern-either:
-          - pattern: $ITEM.getName()
-          - pattern: $FILE.getOriginalFilename()
+          # 文件上传时 getOriginalFilename 用于保存
+          - patterns:
+              - pattern: $MULTIPART.getOriginalFilename()
+              - pattern-inside: |
+                  $MULTIPART.transferTo(...)
+                  ...
+          # 直接使用 MultipartFile.getOriginalFilename
+          - pattern: $F.getOriginalFilename()
     metadata:
       gb_standard: GB/T 34944-2017
       gb_clause: "6.2.8.5"

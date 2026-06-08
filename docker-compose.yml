@@ -8,6 +8,8 @@ services:
     ports:
       - "8000:8000"
     volumes:
+      - ./rules:/app/rules        # 规则目录挂载，修改即时生效
+      - ./knowledge:/app/knowledge # 知识库挂载
       - code_workspace:/workspace/projects
       - report_workspace:/workspace/report
     environment:
