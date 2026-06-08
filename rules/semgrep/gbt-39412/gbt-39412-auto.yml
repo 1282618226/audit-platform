@@ -1261,3 +1261,61 @@ rules:
     metadata:
       gb_standard: GB/T 39412-2020
       gb_clause: "7.5.6"
+
+  # ─── 7.3.3 参数指定错误（PARTIAL） ───
+  - id: gbt-39412-7.3.3-parameter-error
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 39412-2020 7.3.3】参数指定错误
+      变量未判空即调用方法，或除法/取模未判零。
+    patterns:
+      - pattern-either:
+          # 除数为零：分母是变量而非字面量
+          - pattern: $X / $Y
+          - pattern: $X % $Y
+          # 变量未判空直接调用 .equals()
+          - pattern: $VAR.equals(...)
+          # 变量未判空直接调用 .toString()
+          - pattern: $VAR.toString()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.3.3"
+
+  # ─── 7.3.5 实现不一致函数（PARTIAL） ───
+  - id: gbt-39412-7.3.5-inconsistent-functions
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 39412-2020 7.3.5】实现不一致函数
+      split 未指定 limit / listFiles 未排序 / SimpleDateFormat 无 Locale。
+    patterns:
+      - pattern-either:
+          # split 未指定 limit 参数（单参数调用）
+          - pattern: $STR.split($REGEX)
+          # listFiles 返回值直接使用
+          - pattern: $ARR = $FILE.listFiles()
+          # SimpleDateFormat 构造未传 Locale（单参数构造）
+          - pattern: new SimpleDateFormat($PATTERN)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.3.5"
+
+  # ─── 9.2 第三方软件安全可靠（PARTIAL） ───
+  - id: gbt-39412-9.2-third-party-security
+    languages: [generic]
+    severity: WARNING
+    message: >
+      【GB/T 39412-2020 9.2】第三方软件安全可靠
+      依赖声明使用了非固定版本号或非官方仓库源。
+    patterns:
+      - pattern-either:
+          # Maven: 非固定版本号 LATEST/RELEASE/SNAPSHOT
+          - pattern-regex: '<version>.*(LATEST|RELEASE|SNAPSHOT).*</version>'
+          # Gradle: 动态版本号 + 
+          - pattern-regex: ':\d+\.\d+\+'
+          # SNAPSHOT 依赖（冒号格式）
+          - pattern-regex: 'SNAPSHOT'
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "9.2"
