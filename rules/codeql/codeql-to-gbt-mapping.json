@@ -1,0 +1,134 @@
+{
+  "cpp/ql/src/Security/CWE/CWE-119/BufferOverflow.ql": {
+    "gb_clause": "8.2.7",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "缓冲区复制造成溢出",
+    "cwe": "CWE-119"
+  },
+  "cpp/ql/src/Security/CWE/CWE-120/BufferOverflow.ql": {
+    "gb_clause": "8.2.6",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "内存缓冲区边界操作",
+    "cwe": "CWE-120"
+  },
+  "cpp/ql/src/Security/CWE/CWE-121/StackBasedOverflow.ql": {
+    "gb_clause": "8.2.6",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "内存缓冲区边界操作",
+    "cwe": "CWE-121"
+  },
+  "cpp/ql/src/Security/CWE/CWE-131/BufferSize.ql": {
+    "gb_clause": "8.2.8",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "使用错误长度访问缓冲区",
+    "cwe": "CWE-131"
+  },
+  "cpp/ql/src/Security/CWE/CWE-416/UseAfterFree.ql": {
+    "gb_clause": "8.2.4",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "访问已释放内存",
+    "cwe": "CWE-416"
+  },
+  "cpp/ql/src/Security/CWE/CWE-190/IntegerOverflow.ql": {
+    "gb_clause": "7.2.3.5",
+    "gb_standard": "GB/T 34943-2017",
+    "vuln_name": "整数溢出",
+    "cwe": "CWE-190"
+  },
+  "cpp/ql/src/Security/CWE/CWE-191/IntegerUnderflow.ql": {
+    "gb_clause": "7.2.3.5",
+    "gb_standard": "GB/T 34943-2017",
+    "vuln_name": "整数溢出",
+    "cwe": "CWE-191"
+  },
+  "cpp/ql/src/Security/CWE/CWE-134/FormatString.ql": {
+    "gb_clause": "7.3.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "格式化字符串",
+    "cwe": "CWE-134"
+  },
+  "cpp/ql/src/Security/CWE/CWE-078/CommandInjection.ql": {
+    "gb_clause": "6.1.1.6",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "命令行注入",
+    "cwe": "CWE-78"
+  },
+  "cpp/ql/src/Security/CWE/CWE-089/SqlInjection.ql": {
+    "gb_clause": "8.3.2",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "SQL注入",
+    "cwe": "CWE-89"
+  },
+  "cpp/ql/src/Security/CWE/CWE-022/PathTraversal.ql": {
+    "gb_clause": "8.4.4",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "路径遍历",
+    "cwe": "CWE-22"
+  },
+  "cpp/ql/src/Security/CWE/CWE-457/UninitializedVariable.ql": {
+    "gb_clause": "8.1.2",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "资源或变量不安全初始化",
+    "cwe": "CWE-457"
+  },
+  "cpp/ql/src/Security/CWE/CWE-468/IncorrectPointerCast.ql": {
+    "gb_clause": "7.5.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "不兼容的指针类型",
+    "cwe": "CWE-468"
+  },
+  "cpp/ql/src/Security/CWE/CWE-704/TypeCast.ql": {
+    "gb_clause": "7.5.4",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "试图访问非结构体类型指针的数据域",
+    "cwe": "CWE-704"
+  },
+  "cpp/ql/src/Security/CWE/CWE-676/DangerousFunction.ql": {
+    "gb_clause": "8.2.6",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "内存缓冲区边界操作",
+    "cwe": "CWE-676"
+  },
+  "cpp/ql/src/Security/CWE/CWE-835/InfiniteLoop.ql": {
+    "gb_clause": "8.1.8",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "无限循环",
+    "cwe": "CWE-835"
+  },
+  "cpp/ql/src/Security/CWE/CWE-764/MultipleLocks.ql": {
+    "gb_clause": "7.2.3",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "共享资源的并发安全",
+    "cwe": "CWE-764"
+  },
+  "cpp/ql/src/Security/CWE/CWE-367/TOCTOU.ql": {
+    "gb_clause": "7.2.3",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "共享资源的并发安全",
+    "cwe": "CWE-367"
+  },
+  "cpp/ql/src/Security/CWE/CWE-079/Xss.ql": {
+    "gb_clause": "6.1.2.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "跨站脚本",
+    "cwe": "CWE-79"
+  },
+  "cpp/ql/src/Security/CWE/CWE-311/MissingEncryption.ql": {
+    "gb_clause": "8.5.4",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "通信安全",
+    "cwe": "CWE-311"
+  },
+  "cpp/ql/src/Security/CWE/CWE-326/WeakEncryption.ql": {
+    "gb_clause": "6.2.1.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "密码安全",
+    "cwe": "CWE-326"
+  },
+  "cpp/ql/src/Security/CWE/CWE-427/UnsafeSearchPath.ql": {
+    "gb_clause": "7.2.2.1",
+    "gb_standard": "GB/T 34943-2017",
+    "vuln_name": "不可信的搜索路径",
+    "cwe": "CWE-427"
+  }
+}

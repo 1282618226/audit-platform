@@ -228,7 +228,7 @@ class CodeQLScanner:
         language: str = "java",
         build_command: str | None = None,
     ) -> list[dict[str, Any]]:
-        """一步完成 CodeQL 扫描（创建数据库 + 查询分析）。
+        """一步完成 CodeQL 扫描（自定义查询 + 内置安全查询包）。
 
         Args:
             source_root: 源代码目录。
@@ -238,10 +238,172 @@ class CodeQLScanner:
         Returns:
             统一格式的发现列表。
         """
+        findings: list[dict[str, Any]] = []
         db_path = self.create_database(source_root, language, build_command)
         if db_path is None:
+            return findings
+
+        # 1. 运行自定义 CNAS 查询
+        custom = self.analyze(db_path, language)
+        findings.extend(custom)
+
+        # 2. 运行 CodeQL 内置安全查询包，结果映射到 GB/T 条款
+        builtin = self._run_builtin_queries(db_path, language)
+        findings.extend(builtin)
+
+        return findings
+
+    # ─── 内置查询包 ──────────────────────────────────────────────
+
+    def _run_builtin_queries(
+        self, database_path: str, language: str = "java"
+    ) -> list[dict[str, Any]]:
+        """使用 CodeQL 内置安全查询包扫描，结果映射到 GB/T 条款。
+
+        C/C++: codeql/cpp-queries（40 个 CWE 安全查询）
+        Java:  codeql/java-queries
+        """
+        query_pack = "codeql/cpp-queries" if language == "cpp" else "codeql/java-queries"
+
+        with tempfile.NamedTemporaryFile(suffix=".sarif", mode="w", delete=False) as f:
+            sarif_path = f.name
+
+        cmd = [
+            self.cli_path, "database", "analyze",
+            str(database_path), query_pack,
+            "--format", "sarif-latest", "--output", sarif_path,
+            "--no-save-cache", "--no-upload",
+        ]
+
+        try:
+            result = subprocess.run(
+                cmd, capture_output=True, text=True, timeout=self._timeout, check=False
+            )
+            if result.returncode not in (0, 2):
+                logger.warning(
+                    "CodeQL 内置查询失败 (exit=%d): %s",
+                    result.returncode,
+                    (result.stderr or "")[:200],
+                )
+                return []
+            return self._parse_builtin_sarif(sarif_path)
+        except subprocess.TimeoutExpired:
+            logger.warning("CodeQL 内置查询超时")
             return []
-        return self.analyze(db_path, language)
+        except FileNotFoundError:
+            logger.debug("CodeQL CLI 不可用，跳过内置查询")
+            return []
+        except Exception as e:
+            logger.warning("CodeQL 内置查询异常: %s", e)
+            return []
+
+    def _parse_builtin_sarif(self, sarif_path: str) -> list[dict[str, Any]]:
+        """解析内置查询的 SARIF 输出，通过映射表转为 GB/T 条款号。
+
+        与 _parse_sarif 不同：内置查询的 ruleId 是 cpp/ql/src/... 格式，
+        需要通过 codeql-to-gbt-mapping.json 映射到国标条款号。
+        """
+        mapping = self._load_codeql_mapping()
+        if not mapping:
+            return []
+
+        try:
+            with open(sarif_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except (json.JSONDecodeError, FileNotFoundError):
+            return []
+
+        findings: list[dict[str, Any]] = []
+        for run in data.get("runs", []):
+            source_root = self._get_source_root_from_run(run)
+            for result in run.get("results", []):
+                rule_id = result.get("ruleId", "")
+                gbt = mapping.get(rule_id)
+                if not gbt:
+                    # 尝试模糊匹配：检查 ruleId 是否包含映射 key 的一部分
+                    for map_key, map_val in mapping.items():
+                        if map_key.split("/")[-1].replace(".ql", "") in rule_id:
+                            gbt = map_val
+                            break
+                if not gbt:
+                    continue
+
+                finding = self._convert_builtin_result(result, gbt, source_root)
+                if finding:
+                    findings.append(finding)
+
+        return findings
+
+    def _convert_builtin_result(
+        self, result: dict[str, Any], gbt: dict[str, Any], source_root: str
+    ) -> dict[str, Any] | None:
+        """将内置查询 SARIF 结果转为统一格式（使用映射表中的条款信息）。"""
+        try:
+            message = result.get("message", {}).get("text", "")
+            locations = result.get("locations", [])
+            if not locations:
+                return None
+
+            loc = locations[0]
+            phys = loc.get("physicalLocation", {})
+            region = phys.get("region", {})
+            artifact = phys.get("artifactLocation", {})
+            uri = artifact.get("uri", "")
+
+            file_path = self._resolve_uri(uri, source_root)
+            line_start = region.get("startLine", 0)
+            line_end = region.get("endLine", line_start)
+            snippet = region.get("snippet", {}).get("text", "")
+
+            clause = gbt["gb_clause"]
+            standard = gbt["gb_standard"]
+            vuln_name = gbt.get("vuln_name", "")
+            confidence = self._estimate_confidence(result)
+
+            if self._kb:
+                vuln = self._kb.get_by_clause(clause)
+                if vuln:
+                    if not vuln_name:
+                        vuln_name = vuln.get("name", "")
+
+            return {
+                "clause": clause,
+                "standard": standard,
+                "vuln_name": vuln_name,
+                "category": "",
+                "file_path": file_path,
+                "line_start": line_start,
+                "line_end": line_end,
+                "source_tool": "codeql",
+                "auto_confidence": confidence,
+                "code_snippet": snippet,
+                "tool_raw_output": {
+                    "rule_id": result.get("ruleId", ""),
+                    "message": message[:200],
+                    "query_source": "builtin",
+                    "cwe": gbt.get("cwe", ""),
+                },
+            }
+        except Exception as e:
+            logger.debug("CodeQL: 转换内置查询结果失败: %s", e)
+            return None
+
+    @staticmethod
+    def _load_codeql_mapping() -> dict[str, Any]:
+        """加载 CodeQL → GB/T 映射表。
+
+        查找路径: /app/rules/codeql/codeql-to-gbt-mapping.json
+        """
+        candidates = [
+            Path("rules/codeql/codeql-to-gbt-mapping.json"),
+            Path("/app/rules/codeql/codeql-to-gbt-mapping.json"),
+        ]
+        for p in candidates:
+            if p.is_file():
+                with open(p, "r", encoding="utf-8") as f:
+                    return json.load(f)
+        logger.debug("codeql-to-gbt-mapping.json 未找到，内置查询结果将不被映射")
+        return {}
 
     # ─── 内部方法 ────────────────────────────────────────────────
 

@@ -688,6 +688,11 @@
         "standard": "GB/T 34943-2017",
         "clause": "7.2.3.8",
         "language": "C/C++"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.3.5",
+        "language": "通用"
       }
     ]
   },
