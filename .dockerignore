@@ -1,0 +1,12 @@
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+.git
+.DS_Store
+.vscode
+.idea
+*.md
+*.rar
+*.pdf
+*.xlsx

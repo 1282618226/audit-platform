@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}{{ project.name }} — CNAS{% endblock %}
+{% block content %}
+<h2>{{ project.name }}</h2>
+<p>来源: {{ project.source_type }} | 创建: {{ project.created_at[:10] }}</p>
+
+<div class="card">
+    <h3>触发扫描</h3>
+    <form id="scan-form">
+        <label>标准:
+            <select name="standard">
+                <option value="">全部标准</option>
+                <option value="34944">GB/T 34944 (Java)</option>
+                <option value="34943">GB/T 34943 (C/C++)</option>
+                <option value="39412">GB/T 39412 (审计指标)</option>
+            </select>
+        </label>
+        <label><input type="checkbox" name="offline" checked> 离线模式（不调用 LLM）</label>
+        <button type="submit">开始扫描</button>
+    </form>
+    <div id="scan-status"></div>
+</div>
+
+<div class="card">
+    <h3>扫描历史</h3>
+    <table>
+        <thead><tr>
+            <th>ID</th><th>状态</th><th>标准</th><th>发现数</th><th>时间</th><th>操作</th>
+        </tr></thead>
+        <tbody id="scan-tbody">
+            {% for s in scans %}
+            <tr>
+                <td>{{ s.id }}</td>
+                <td><span class="status-{{s.status}}">{{ s.status }}</span></td>
+                <td>{{ s.standard or '全部' }}</td>
+                <td>{{ s.total_findings }}</td>
+                <td>{{ s.finished_at[:19] if s.finished_at else s.started_at[:19] }}</td>
+                <td>
+                    {% if s.status == 'done' %}
+                    <a href="/scans/{{ s.id }}">查看报告</a>
+                    <a href="/api/scans/{{ s.id }}/report.docx">下载 DOCX</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+document.getElementById('scan-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const status = document.getElementById('scan-status');
+    status.textContent = '启动中...';
+
+    const body = {};
+    for (const [key, val] of formData.entries()) {
+        body[key] = val;
+    }
+    // Checkbox unchecked => key missing from FormData, set explicitly
+    if (!formData.has('offline')) {
+        body.offline = false;
+    } else {
+        body.offline = true;
+    }
+
+    const resp = await fetch('/api/projects/{{ project.id }}/scans', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(body),
+    });
+    const data = await resp.json();
+    if (resp.ok) {
+        status.textContent = '✅ 扫描已入队 (scan_id=' + data.scan_id + ')，刷新页面查看进度';
+        setTimeout(() => location.reload(), 3000);
+    } else {
+        status.textContent = '❌ ' + (data.detail || '启动失败');
+    }
+});
+</script>
+{% endblock %}

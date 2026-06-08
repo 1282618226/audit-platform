@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}扫描报告 #{{ scan.id }} — {{ project.name }}{% endblock %}
+{% block content %}
+<h2>{{ project.name }} — 扫描报告 #{{ scan.id }}</h2>
+<p>
+    状态: <strong class="status-{{ scan.status }}">{{ scan.status }}</strong> |
+    标准: {{ scan.standard or '全部' }} |
+    模式: {{ '离线' if scan.offline else '在线' }} |
+    发现数: <strong>{{ scan.total_findings }}</strong>
+</p>
+
+<div class="toolbar">
+    <a href="/api/scans/{{ scan.id }}/report.docx" class="btn">📥 下载 DOCX</a>
+    <a href="/api/scans/{{ scan.id }}/report.md" class="btn">📥 下载 Markdown</a>
+    <a href="/projects/{{ project.id }}" class="btn">← 返回项目</a>
+</div>
+
+{% if report and report.findings %}
+<div class="card">
+    <h3>按严重等级统计</h3>
+    <table class="summary">
+        <tr><th>严重等级</th><th>数量</th></tr>
+        {% for sev, cnt in report.summary.by_severity.items() %}
+        <tr><td>{{ sev }}</td><td>{{ cnt }}</td></tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="card">
+    <h3>漏洞清单（{{ report.findings|length }} 条）</h3>
+    <table id="finding-table">
+        <thead><tr>
+            <th>条款号</th><th>漏洞名称</th><th>等级</th><th>文件位置</th><th>置信度</th>
+        </tr></thead>
+        <tbody>
+        {% for f in report.findings %}
+        <tr class="sev-{{ f.severity }}">
+            <td>{{ f.clause }}</td>
+            <td>{{ f.vuln_name }}</td>
+            <td>{{ f.severity }}</td>
+            <td>{{ f.file_path }}:{{ f.line_start }}</td>
+            <td>{{ "%.0f" % (f.auto_confidence * 100) }}%</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% elif scan.status != 'done' %}
+<p>扫描进行中，完成后刷新页面查看报告。</p>
+{% else %}
+<p>未发现漏洞或报告数据不可用。</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,41 @@
+# GB/T 34944-2017 MyBatis XML 规则
+# 修复3: 覆盖 MyBatis mapper XML 文件中的 SQL 注入
+# languages: [xml] — Semgrep 会扫描 .xml 文件
+rules:
+  - id: gbt-34944-6.2.3.4-mybatis-sqli
+    languages: [xml]
+    severity: ERROR
+    message: >
+      【GB/T 34944-2017 6.2.3.4】SQL注入
+      MyBatis Mapper XML 中使用了 ${} 字符串拼接语法，
+      外部输入可能被注入恶意 SQL 语句。
+      应改用 #{} 参数化语法。
+    patterns:
+      - pattern-inside: |
+          <$TAG ...>
+          ...
+          </$TAG>
+      - pattern-regex: '\$\{[^}]+\}'
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.3.4"
+      category: 数据处理
+      cwe: "CWE-89"
+      confidence: HIGH
+
+  - id: gbt-34944-6.2.3.4-mybatis-like-sqli
+    languages: [xml]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.3.4】SQL注入
+      MyBatis Mapper XML 中 LIKE 查询使用了 ${} 拼接，
+      攻击者可注入通配符绕过查询限制。
+      应使用 #{} 并在 Java 代码中拼接 % 通配符。
+    patterns:
+      - pattern-regex: '(?i)like\s+.*\$\{[^}]+\}'
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.3.4"
+      category: 数据处理
+      cwe: "CWE-89"
+      confidence: MEDIUM

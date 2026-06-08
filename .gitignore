@@ -1,0 +1,51 @@
+# ─── Python ────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+.venv/
+venv/
+env/
+
+# ─── IDE ───────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ─── OS ────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ─── Docker ────────────────────────────────────────────────────────
+.env
+.env.local
+
+# ─── Secrets / Tokens (never commit) ──────────────────────────────
+token.txt
+*.token
+*.key
+SEMGREP_*
+ANTHROPIC_*
+
+# ─── Build artifacts ───────────────────────────────────────────────
+*.zip
+*.tar.gz
+*.tar.xz
+*.log
+/tmp/
+
+# ─── Workspace (mounted volumes, not in repo) ─────────────────────
+/workspace/
+
+# ─── Reports (generated output) ───────────────────────────────────
+report*.docx
+report*.json
+report*.md
+
+# ─── Node.js ──────────────────────────────────────────────────────
+node_modules/

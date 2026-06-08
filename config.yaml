@@ -1,0 +1,73 @@
+# CNAS 容器化源代码安全审计平台 —— 运行时配置
+# 可通过 -v 挂载覆盖: docker run -v ./config.yaml:/app/config.yaml ...
+
+# ─── 扫描阶段开关 ─────────────────────────────────────────────────
+scan:
+  languages: [java, cpp]        # 支持的语言，自动检测覆盖
+  stages:
+    preprocess: true
+    semgrep: true
+    codeql: true
+    llm_review: true
+    report: true
+
+# ─── Semgrep 配置 ─────────────────────────────────────────────────
+semgrep:
+  enabled: true
+  rules_dir: /app/rules/semgrep
+  timeout_seconds: 300
+  pro: true
+
+# ─── CodeQL 配置 ──────────────────────────────────────────────────
+codeql:
+  enabled: true
+  cli_path: /opt/codeql/codeql
+  database_dir: /workspace/cache/codeql-dbs
+  queries_dir: /app/rules/codeql
+  timeout_seconds: 600
+
+# ─── LLM 配置 (DeepSeek via Anthropic SDK) ────────────────────────
+llm:
+  provider: deepseek
+  model: deepseek-chat
+  reason_model: deepseek-reasoner
+  # 使用 Anthropic SDK 兼容端点
+  base_url: "https://api.deepseek.com/anthropic"
+  # API Key 从环境变量 ANTHROPIC_API_KEY 读取
+  api_key_env: ANTHROPIC_API_KEY
+  # 离线模式: 设为 true 强制跳过所有 LLM 调用
+  offline: false
+  # LLM 二次确认阈值
+  review_threshold_low: 0.4
+  review_threshold_high: 0.7
+  # SAST 无法覆盖的漏洞条款（LLM 盲扫）
+  blind_scan_clauses:
+    - "6.2.5.2"    # 违反信任边界
+    - "6.2.6.4"    # 依赖referer鉴权
+    - "6.2.6.11"   # 反向域名解析
+    - "6.2.6.12"   # 关键参数篡改
+    - "6.2.6.13"   # 强口令要求
+    - "6.2.6.15"   # 未验证cookie
+    - "6.2.6.16"   # SQL关键字绕过授权
+    - "7.2.7.9"    # C/C++反向域名
+    - "7.2.7.10"   # C/C++强口令要求
+  # LLM 辅助提升准确率的条款
+  assist_clauses:
+    - "6.2.3.8"    # 日志泄露
+    - "6.2.3.10"   # Cookie泄露
+    - "6.2.5.1"    # 序列化敏感数据
+    - "6.2.6.5"    # Cookie明文
+    - "6.2.6.6"    # 明文传输
+    - "6.2.6.11"   # 反向域名
+    - "7.2.3.10"   # C/C++日志泄露
+    - "7.2.5.1"    # C/C++内存上锁
+
+# ─── 反馈数据库 ───────────────────────────────────────────────────
+feedback:
+  db_path: /workspace/feedback/feedback.db
+  auto_tune_threshold_fp: 0.6    # 误报率超过60%自动触发调优
+
+# ─── 输出配置 ─────────────────────────────────────────────────────
+output:
+  report_dir: /workspace/report
+  formats: [json, markdown, docx]  # 可选: json, markdown, html, docx

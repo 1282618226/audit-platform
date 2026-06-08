@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CNAS 代码安全审计平台{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="brand">🔍 CNAS 代码安全审计平台</a>
+            <span class="subtitle">GB/T 34944 / 34943 / 39412</span>
+        </div>
+    </nav>
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

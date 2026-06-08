@@ -1,0 +1,353 @@
+# GB/T 34944-2017 Java 规则 — taint mode + pattern-either 双模式
+rules:
+  # ═══════════════════════════════════════════════════════════════════
+  # TAINT MODE 规则（注入类：追踪 Source→Sink 入口点+爆发点）
+  # ═══════════════════════════════════════════════════════════════════
+
+  # ─── 6.2.3.4 SQL注入 (taint) ───
+  - id: gbt-34944-6.2.3.4-sql-injection-taint
+    languages: [java]
+    severity: ERROR
+    mode: taint
+    message: >
+      【GB/T 34944-2017 6.2.3.4】SQL注入
+      用户输入未经验证直接拼入 SQL 语句执行。
+    pattern-sources:
+      - pattern: $REQ.getParameter(...)
+      - pattern: $REQ.getAttribute(...)
+      - pattern: $REQ.getHeader(...)
+      - pattern: request.getParameter(...)
+      - pattern: request.getAttribute(...)
+      - pattern: request.getHeader(...)
+    pattern-sinks:
+      - pattern: $STMT.executeQuery(...)
+      - pattern: $STMT.executeUpdate(...)
+      - pattern: $STMT.execute(...)
+      - pattern: $PS.executeQuery(...)
+      - pattern: $PS.execute(...)
+      - pattern: $JDBC.query(...)
+      - pattern: $JDBC.queryForList(...)
+      - pattern: $JDBC.queryForMap(...)
+      - pattern: $JDBC.update(...)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: '6.2.3.4'
+      category: 数据处理
+      cwe: 'CWE-89'
+
+  # ─── 6.2.3.3 命令注入 (taint) ───
+  - id: gbt-34944-6.2.3.3-command-injection-taint
+    languages: [java]
+    severity: ERROR
+    mode: taint
+    message: >
+      【GB/T 34944-2017 6.2.3.3】命令注入
+      用户输入未经验证直接拼入系统命令。
+    pattern-sources:
+      - pattern: $REQ.getParameter(...)
+      - pattern: $REQ.getAttribute(...)
+      - pattern: request.getParameter(...)
+      - pattern: request.getAttribute(...)
+    pattern-sinks:
+      - pattern: Runtime.getRuntime().exec(...)
+      - pattern: new ProcessBuilder(...)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: '6.2.3.3'
+      category: 数据处理
+      cwe: 'CWE-77'
+
+  # ─── 6.2.8.1 跨站脚本 (taint) ───
+  - id: gbt-34944-6.2.8.1-xss-taint
+    languages: [java]
+    severity: WARNING
+    mode: taint
+    message: >
+      【GB/T 34944-2017 6.2.8.1】跨站脚本(XSS)
+      用户输入未经 HTML 编码直接写入 HTTP 响应。
+    pattern-sources:
+      - pattern: $REQ.getParameter(...)
+      - pattern: request.getParameter(...)
+      - pattern: $REQ.getAttribute(...)
+    pattern-sinks:
+      - pattern: $RESP.getWriter().write(...)
+      - pattern: $RESP.getWriter().print(...)
+      - pattern: $RESP.getWriter().println(...)
+      - pattern: $RESP.getOutputStream().write(...)
+      - pattern: $RESP.getOutputStream().print(...)
+      - pattern: $OUT.write(...)
+      - pattern: $OUT.print(...)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: '6.2.8.1'
+      category: Web问题
+      cwe: 'CWE-79'
+
+  # ─── 6.2.8.4 开放重定向 (taint) ───
+  - id: gbt-34944-6.2.8.4-open-redirect-taint
+    languages: [java]
+    severity: WARNING
+    mode: taint
+    message: >
+      【GB/T 34944-2017 6.2.8.4】开放重定向
+      用户输入的 URL 未经白名单验证直接用于重定向。
+    pattern-sources:
+      - pattern: $REQ.getParameter(...)
+      - pattern: request.getParameter(...)
+    pattern-sinks:
+      - pattern: $RESP.sendRedirect(...)
+      - pattern: response.sendRedirect(...)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: '6.2.8.4'
+      category: Web问题
+      cwe: 'CWE-601'
+
+  # ─── 6.2.3.5 代码注入 (taint) ───
+  - id: gbt-34944-6.2.3.5-reflection-injection-taint
+    languages: [java]
+    severity: ERROR
+    mode: taint
+    message: >
+      【GB/T 34944-2017 6.2.3.5】代码注入
+      用户可控的类名传入 Class.forName 动态加载。
+    pattern-sources:
+      - pattern: $REQ.getParameter(...)
+      - pattern: request.getParameter(...)
+    pattern-sinks:
+      - pattern: Class.forName(...)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: '6.2.3.5'
+      category: 数据处理
+      cwe: 'CWE-470'
+
+  # ═══════════════════════════════════════════════════════════════════
+  # PATTERN-EITHER 规则（纯模式匹配，不需要 Source→Sink 追踪）
+  # ═══════════════════════════════════════════════════════════════════
+
+  # ─── 6.2.3.4 SQL注入 ───
+  - id: gbt-34944-6.2.3.4-sql-injection
+    languages: [java]
+    severity: ERROR
+    message: >
+      【GB/T 34944-2017 6.2.3.4】SQL注入
+      应使用 PreparedStatement 参数化查询。
+    patterns:
+      - pattern-either:
+          - pattern: $STMT.executeQuery($Q)
+          - pattern: $STMT.execute($Q)
+          - pattern: jdbcTemplate.query($Q, ...)
+          - pattern: jdbcTemplate.queryForList($Q, ...)
+          - pattern: jdbcTemplate.update($Q, ...)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: '6.2.3.4'
+      category: 数据处理
+      cwe: 'CWE-89'
+
+  # ─── 6.2.3.3 命令注入 ───
+  - id: gbt-34944-6.2.3.3-command-injection
+    languages: [java]
+    severity: ERROR
+    message: >
+      【GB/T 34944-2017 6.2.3.3】命令注入
+      应使用参数数组化 API。
+    patterns:
+      - pattern-either:
+          - pattern: Runtime.getRuntime().exec($ARG)
+          - pattern: Runtime.getRuntime().exec($ARG, ...)
+          - pattern: new ProcessBuilder($ARG)
+          - pattern: new ProcessBuilder($ARG, ...)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: '6.2.3.3'
+      category: 数据处理
+      cwe: 'CWE-77'
+
+  # ─── 6.2.3.5 代码注入(反射) ───
+  - id: gbt-34944-6.2.3.5-reflection-injection
+    languages: [java]
+    severity: ERROR
+    message: >
+      【GB/T 34944-2017 6.2.3.5】代码注入
+      Class.forName() 使用外部可控类名动态加载类。
+    patterns:
+      - pattern-either:
+          - pattern: Class.forName($NAME)
+          - pattern: Class.forName($NAME, ...)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: '6.2.3.5'
+      category: 数据处理
+      cwe: 'CWE-470'
+
+  # ─── 6.2.8.1 跨站脚本 ───
+  - id: gbt-34944-6.2.8.1-xss
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.8.1】跨站脚本(XSS)
+    patterns:
+      - pattern-either:
+          - pattern: $RESP.getWriter().write($REQ.getParameter(...))
+          - pattern: $RESP.getWriter().print($REQ.getParameter(...))
+          - pattern: $OUT.write($REQ.getParameter(...))
+          - pattern: $OUT.print($REQ.getParameter(...))
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: '6.2.8.1'
+      category: Web问题
+      cwe: 'CWE-79'
+
+  # ─── 6.2.8.3 HTTP响应拆分 ───
+  - id: gbt-34944-6.2.8.3-http-response-splitting
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.8.3】HTTP响应拆分
+    patterns:
+      - pattern-either:
+          - pattern: $RESP.setHeader($REQ.getParameter(...), ...)
+          - pattern: $RESP.addHeader($REQ.getParameter(...), ...)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: '6.2.8.3'
+      category: Web问题
+      cwe: 'CWE-113'
+
+  # ─── 6.2.8.4 开放重定向 ───
+  - id: gbt-34944-6.2.8.4-open-redirect
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.8.4】开放重定向
+    patterns:
+      - pattern-either:
+          - pattern: $RESP.sendRedirect($REQ.getParameter(...))
+          - pattern: $RESP.sendRedirect($URL)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: '6.2.8.4'
+      category: Web问题
+      cwe: 'CWE-601'
+
+  # ─── 6.2.6.1 明文存储口令 ───
+  - id: gbt-34944-6.2.6.1-plaintext-password
+    languages: [java]
+    severity: ERROR
+    message: >
+      【GB/T 34944-2017 6.2.6.1】明文存储口令
+    patterns:
+      - pattern-either:
+          - pattern: $PS.setString(..., $REQ.getParameter($PWD))
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: '6.2.6.1'
+      category: 安全功能
+      cwe: 'CWE-256'
+
+  # ─── 6.2.6.3 口令硬编码 ───
+  - id: gbt-34944-6.2.6.3-hardcoded-password
+    languages: [java]
+    severity: ERROR
+    message: >
+      【GB/T 34944-2017 6.2.6.3】口令/密钥硬编码
+    patterns:
+      - pattern-either:
+          - pattern: $PWD.equals($STR)
+          - pattern: $STR.equals($PWD)
+          - pattern: String $PWD = $STR;
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: '6.2.6.3'
+      category: 安全功能
+      cwe: 'CWE-798'
+
+  # ─── 6.2.6.7 危险加密算法 ───
+  - id: gbt-34944-6.2.6.7-weak-crypto
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.6.7】使用已破解或危险的加密算法
+    patterns:
+      - pattern: Cipher.getInstance($ALG)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: '6.2.6.7'
+      category: 安全功能
+      cwe: 'CWE-327'
+
+  # ─── 6.2.6.8 可逆散列算法 ───
+  - id: gbt-34944-6.2.6.8-weak-hash
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.6.8】可逆的散列算法
+    patterns:
+      - pattern: MessageDigest.getInstance($ALG)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: '6.2.6.8'
+      category: 安全功能
+      cwe: 'CWE-328'
+
+  # ─── 6.2.6.10 不充分的随机数 ───
+  - id: gbt-34944-6.2.6.10-weak-random
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.6.10】不充分的随机数
+      应使用 SecureRandom。
+    patterns:
+      - pattern: new Random()
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: '6.2.6.10'
+      category: 安全功能
+      cwe: 'CWE-330'
+
+  # ─── 6.2.6.17 HTTPS Cookie 未设 Secure ───
+  - id: gbt-34944-6.2.6.17-cookie-no-secure
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.6.17】HTTPS Cookie未设安全属性
+    patterns:
+      - pattern: |
+          Cookie $C = new Cookie(...);
+          ...
+          $RESP.addCookie($C);
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: '6.2.6.17'
+      category: 安全功能
+      cwe: 'CWE-614'
+
+  # ─── 6.2.6.19 RSA未使用OAEP填充 ───
+  - id: gbt-34944-6.2.6.19-rsa-pkcs1
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.6.19】RSA PKCS1Padding
+    patterns:
+      - pattern: Cipher.getInstance($ALG)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: '6.2.6.19'
+      category: 安全功能
+      cwe: 'CWE-780'
+
+  # ─── 6.2.7.1 会话固定 ───
+  - id: gbt-34944-6.2.7.1-session-fixation
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.7.1】会话固定
+    patterns:
+      - pattern: $REQ.getSession(true)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: '6.2.7.1'
+      category: 时间和状态
+      cwe: 'CWE-384'

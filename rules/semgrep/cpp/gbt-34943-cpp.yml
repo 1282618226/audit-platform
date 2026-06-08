@@ -1,0 +1,409 @@
+# GB/T 34943-2017 C/C++ 源代码漏洞检测规则
+# 基于 /tmp/gbt/GBT34943/ 原始 .md 文件中的代码示例提取 pattern
+# 格式与 Java 规则一致
+
+rules:
+  # ─── P0: 7.2.3.6 缓冲区溢出 ────────────────────────────────────
+  - id: gbt-34943-7.2.3.6-buffer-overflow-scanf
+    languages: [c, cpp]
+    severity: ERROR
+    message: >
+      【GB/T 34943-2017 7.2.3.6】缓冲区溢出
+      scanf("%s") 无长度限制，攻击者可输入超长字符串覆盖栈返回地址。
+      应使用 scanf("%Ns", buf) 指定最大读取长度。
+    patterns:
+      - pattern-either:
+          - pattern: 'scanf("%s", $BUF)'
+          - pattern: 'scanf("%s", ...)'
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.3.6"
+      vuln_name: "缓冲区溢出"
+      category: 数据处理
+      cwe: "CWE-120"
+
+  - id: gbt-34943-7.2.3.6-buffer-overflow-strcpy
+    languages: [c, cpp]
+    severity: ERROR
+    message: >
+      【GB/T 34943-2017 7.2.3.6】缓冲区溢出
+      strcpy/strcat 无目标缓冲区长度检查，可能写入超出分配空间。
+      应使用 strncpy/strncat 并显式设置结尾符。
+    patterns:
+      - pattern-either:
+          - pattern: strcpy($DST, $SRC)
+          - pattern: strcat($DST, $SRC)
+          - pattern: sprintf($DST, $FMT, ...)
+          - pattern: gets($BUF)
+          - pattern: memcpy($DST, $SRC, $N)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.3.6"
+      vuln_name: "缓冲区溢出"
+      category: 数据处理
+      cwe: "CWE-120"
+
+  # ─── P0: 7.2.3.7 格式化字符串 ──────────────────────────────────
+  - id: gbt-34943-7.2.3.7-format-string
+    languages: [c, cpp]
+    severity: ERROR
+    message: >
+      【GB/T 34943-2017 7.2.3.7】使用外部控制的格式化字符串
+      printf 系列函数的格式化字符串来自变量（非字面量），
+      攻击者可注入 %n、%s 等格式控制符造成任意内存写入。
+      应使用固定格式化字符串，如 printf("%s", user_input)。
+    patterns:
+      - pattern-either:
+          - pattern: printf($FMT)
+          - pattern: fprintf($FD, $FMT)
+          - pattern: sprintf($DST, $FMT, ...)
+          - pattern: snprintf($DST, $N, $FMT, ...)
+          - pattern: syslog($PRI, $FMT)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.3.7"
+      vuln_name: "使用外部控制的格式化字符串"
+      category: 数据处理
+      cwe: "CWE-134"
+
+  # ─── P0: 7.2.3.8 整数溢出 ──────────────────────────────────────
+  - id: gbt-34943-7.2.3.8-integer-overflow
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.3.8】整数溢出
+      malloc/calloc 中乘法运算可能整数溢出导致分配过小的缓冲区。
+      应在运算前检查 (UINT_MAX - a > b)。
+    patterns:
+      - pattern-either:
+          - pattern: malloc($A * $B)
+          - pattern: calloc($A, $B)
+          - pattern: realloc($PTR, $A * $B)
+          - pattern: malloc($A + $B)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.3.8"
+      vuln_name: "整数溢出"
+      category: 数据处理
+      cwe: "CWE-190"
+
+  # ─── P0: 7.2.4.1 堆检查 ────────────────────────────────────────
+  - id: gbt-34943-7.2.4.1-heap-inspection
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.4.1】堆检查
+      realloc() 调整存储敏感信息的缓冲区前未清零，
+      旧数据可能残留在堆内存中被攻击者通过内存转储读取。
+      应在 realloc 前使用 memset(ptr, 0, len) 清零。
+    patterns:
+      - pattern: realloc($PTR, $SIZE)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.4.1"
+      vuln_name: "堆检查"
+      category: 错误的API协议实现
+      cwe: "CWE-244"
+
+  # ─── P0: 7.2.3.3 命令注入 ──────────────────────────────────────
+  - id: gbt-34943-7.2.3.3-command-injection
+    languages: [c, cpp]
+    severity: ERROR
+    message: >
+      【GB/T 34943-2017 7.2.3.3】命令注入
+      system()/popen() 参数来自外部输入，攻击者可注入 &&、|、; 等
+      分隔符执行任意命令。应使用白名单验证或 execve 参数数组化。
+    patterns:
+      - pattern-either:
+          - pattern: system($CMD)
+          - pattern: popen($CMD, $MODE)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.3.3"
+      vuln_name: "命令注入"
+      category: 数据处理
+      cwe: "CWE-77"
+
+  # ─── P0: 7.2.3.4 SQL注入 ───────────────────────────────────────
+  - id: gbt-34943-7.2.3.4-sql-injection
+    languages: [c, cpp]
+    severity: ERROR
+    message: >
+      【GB/T 34943-2017 7.2.3.4】SQL注入
+      使用 strcat 拼接用户输入构建 SQL 语句，攻击者可注入任意 SQL。
+      应使用参数化查询或对输入进行严格白名单验证。
+    patterns:
+      - pattern-either:
+          - pattern: strcat($SQL, $INPUT)
+          - pattern: sprintf($SQL, $FMT, ...)
+          - pattern: snprintf($SQL, $N, $FMT, ...)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.3.4"
+      vuln_name: "SQL注入"
+      category: 数据处理
+      cwe: "CWE-89"
+
+  # ─── P0: 7.2.3.1 路径遍历 ──────────────────────────────────────
+  - id: gbt-34943-7.2.3.1-path-traversal
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.3.1】相对路径遍历
+      strcat 拼接用户输入到路径后 fopen/open，攻击者可输入 ../
+      访问任意文件。应对文件名进行白名单验证。
+    patterns:
+      - pattern-either:
+          - pattern: strcat($PATH, $INPUT)
+          - pattern: sprintf($PATH, $FMT, ...)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.3.1"
+      vuln_name: "相对路径遍历"
+      category: 数据处理
+      cwe: "CWE-22"
+
+  # ─── P0: 7.2.7.3 口令硬编码 ────────────────────────────────────
+  - id: gbt-34943-7.2.7.3-hardcoded-password
+    languages: [c, cpp]
+    severity: ERROR
+    message: >
+      【GB/T 34943-2017 7.2.7.3】口令硬编码
+      strcmp 直接比较用户输入与硬编码字符串，攻击者可通过逆向获取口令。
+      应使用 SHA-256 散列存储，或从外部配置文件读取。
+    patterns:
+      - pattern-either:
+          - pattern: strcmp($INPUT, $STR)
+          - pattern: strcmp($STR, $INPUT)
+          - pattern: strncmp($INPUT, $STR, $N)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.7.3"
+      vuln_name: "口令硬编码"
+      category: 安全功能
+      cwe: "CWE-798"
+
+  # ─── P1: 7.2.3.5 进程控制 ──────────────────────────────────────
+  - id: gbt-34943-7.2.3.5-process-control
+    languages: [c, cpp]
+    severity: ERROR
+    message: >
+      【GB/T 34943-2017 7.2.3.5】进程控制
+      未经验证的路径拼接到 LoadLibrary/dlopen，攻击者可加载恶意库。
+      应对库路径进行白名单验证。
+    patterns:
+      - pattern-either:
+          - pattern: LoadLibrary($PATH)
+          - pattern: dlopen($PATH, $FLAGS)
+          - pattern: LoadLibraryEx($PATH, ...)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.3.5"
+      vuln_name: "进程控制"
+      category: 数据处理
+      cwe: "CWE-114"
+
+  # ─── P1: 7.2.5.1 敏感信息内存锁 ────────────────────────────────
+  - id: gbt-34943-7.2.5.1-unlocked-sensitive-memory
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.5.1】敏感信息存储于上锁不正确的内存空间
+      malloc 分配敏感数据后未调用 mlock/VirtualLock 锁定内存页，
+      敏感信息可能被交换到磁盘。应锁定内存并检查返回值。
+    patterns:
+      - pattern-either:
+          - pattern: malloc($SIZE)
+          - pattern: calloc($N, $SIZE)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.5.1"
+      vuln_name: "敏感信息存储于上锁不正确的内存空间"
+      category: 劣质代码
+      cwe: "CWE-591"
+
+  # ─── P1: 7.2.6.1 公有函数返回私有数组 ───────────────────────────
+  - id: gbt-34943-7.2.6.1-private-array-leak
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.6.1】公有函数返回私有数组
+      类中私有数组成员通过公有函数返回引用/指针，
+      外部可修改私有数据破坏封装。应返回数组的副本。
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $RETTYPE $METHOD(...) {
+                ...
+                return $ARRAY;
+                ...
+              }
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.6.1"
+      vuln_name: "公有函数返回私有数组"
+      category: 不充分的封装
+      cwe: "CWE-495"
+
+  # ─── 7.2.7.5 危险加密算法 ──────────────────────────────────────
+  - id: gbt-34943-7.2.7.5-weak-crypto
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.7.5】使用已破解或危险的加密算法
+      DES/RC4/MD5 等已被认为不安全，应使用 AES-256-GCM。
+    patterns:
+      - pattern-either:
+          - pattern: DES_set_key(...)
+          - pattern: DES_ecb_encrypt(...)
+          - pattern: MD5(...)
+          - pattern: RC4(...)
+          - pattern: EVP_des_ecb(...)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.7.5"
+      vuln_name: "使用已破解或危险的加密算法"
+      category: 安全功能
+      cwe: "CWE-327"
+
+  # ─── 7.2.7.8 不充分的随机数 ────────────────────────────────────
+  - id: gbt-34943-7.2.7.8-weak-random
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.7.8】不充分的随机数
+      rand() 不是密码学安全的随机数生成器。
+      应使用 RAND_bytes() 或 /dev/urandom。
+    patterns:
+      - pattern-either:
+          - pattern: rand()
+          - pattern: srand(...)
+          - pattern: random()
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.7.8"
+      vuln_name: "不充分的随机数"
+      category: 安全功能
+      cwe: "CWE-330"
+
+  # ─── 7.2.7.1 明文存储口令 ──────────────────────────────────────
+  - id: gbt-34943-7.2.7.1-plaintext-password
+    languages: [c, cpp]
+    severity: ERROR
+    message: >
+      【GB/T 34943-2017 7.2.7.1】明文存储口令
+      将口令直接存入文件/数据库，未使用散列算法。
+      应使用 SHA-256 + 盐值存储。
+    patterns:
+      - pattern-either:
+          - pattern: |
+              fprintf($FD, "%s", $PWD)
+          - pattern: |
+              fwrite($PWD, ...)
+          - pattern: |
+              fputs($PWD, $FD)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.7.1"
+      vuln_name: "明文存储口令"
+      category: 安全功能
+      cwe: "CWE-256"
+
+  # ─── 7.2.8.1 跨站脚本 ──────────────────────────────────────────
+  - id: gbt-34943-7.2.8.1-xss-cgi
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.8.1】跨站脚本(XSS)
+      CGI 程序将用户输入直接输出到 HTTP 响应体，未进行 HTML 编码。
+      应在输出前进行 HTML 实体转义。
+    patterns:
+      - pattern-either:
+          - pattern: |
+              printf($HTML, ...)
+          - pattern: |
+              fprintf(stdout, $HTML, ...)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.8.1"
+      vuln_name: "跨站脚本"
+      category: Web问题
+      cwe: "CWE-79"
+
+  # ─── 7.2.7.4 敏感信息明文传输 ──────────────────────────────────
+  - id: gbt-34943-7.2.7.4-cleartext-transmission
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.7.4】敏感信息明文传输
+      send/write 发送敏感数据前未加密，攻击者可截获。
+      应使用 SSL_write 或先加密再发送。
+    patterns:
+      - pattern-either:
+          - pattern: send($SOCK, $DATA, $LEN, ...)
+          - pattern: write($FD, $DATA, $LEN)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.7.4"
+      vuln_name: "敏感信息明文传输"
+      category: 安全功能
+      cwe: "CWE-319"
+
+  # ─── 7.2.3.2 绝对路径遍历 ──────────────────────────────────────
+  - id: gbt-34943-7.2.3.2-absolute-path-traversal
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.3.2】绝对路径遍历
+      直接使用用户输入的绝对路径访问文件，无目录限制。
+      应对允许访问的目录进行白名单验证。
+    patterns:
+      - pattern-either:
+          - pattern: fopen($PATH, $MODE)
+          - pattern: open($PATH, ...)
+          - pattern: ifstream($PATH)
+          - pattern: CreateFile($PATH, ...)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.3.2"
+      vuln_name: "绝对路径遍历"
+      category: 数据处理
+      cwe: "CWE-22"
+
+  # ─── 7.2.3.9 信息通过错误消息泄露 ──────────────────────────────
+  - id: gbt-34943-7.2.3.9-error-message-leak
+    languages: [c, cpp]
+    severity: INFO
+    message: >
+      【GB/T 34943-2017 7.2.3.9】信息通过错误消息泄露
+      strerror(errno)/perror 可能泄露系统路径、文件结构等敏感信息。
+      错误消息应对用户隐藏内部细节。
+    patterns:
+      - pattern-either:
+          - pattern: perror($MSG)
+          - pattern: strerror(errno)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.3.9"
+      vuln_name: "信息通过错误消息泄露"
+      category: 数据处理
+      cwe: "CWE-209"
+
+  # ─── 7.2.7.7 密码分组链接模式未使用随机IV ─────────────────────
+  - id: gbt-34943-7.2.7.7-cbc-no-random-iv
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.7.7】CBC模式未使用随机初始化矢量
+      AES_cbc_encrypt 使用固定 IV，攻击者可进行字典式攻击。
+      应使用 RAND_bytes 生成随机 IV。
+    patterns:
+      - pattern-either:
+          - pattern: AES_cbc_encrypt($IN, $OUT, $LEN, $KEY, $IV, $ENC)
+          - pattern: EVP_EncryptInit_ex($CTX, $CIPHER, ..., $KEY, $IV)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.7.7"
+      vuln_name: "密码分组链接模式未使用随机初始化矢量"
+      category: 安全功能
+      cwe: "CWE-329"

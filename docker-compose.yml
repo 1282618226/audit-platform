@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: web.Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - code_workspace:/workspace/projects
+      - report_workspace:/workspace/report
+    environment:
+      - ANTHROPIC_BASE_URL=${ANTHROPIC_BASE_URL:-https://api.deepseek.com/anthropic}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+    restart: unless-stopped
+
+volumes:
+  code_workspace:
+  report_workspace:

@@ -1,0 +1,23 @@
+# CNAS 源代码安全审计平台 —— Python 依赖
+# Layer 3 安装
+
+# SAST 引擎
+semgrep>=1.0
+
+# LLM 客户端 (Anthropic SDK → DeepSeek API)
+anthropic>=0.39.0
+
+# 配置加载
+pyyaml>=6.0
+
+# 报告模板
+jinja2>=3.1
+
+# CLI 交互
+rich>=13.0
+
+# 反馈数据库 (运行时已经使用 sqlite3 stdlib，此仅为可选工具)
+sqlite-utils>=3.0
+
+# DOCX 报告生成 (CNAS 格式)
+python-docx>=1.0

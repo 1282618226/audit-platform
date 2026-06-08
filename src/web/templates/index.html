@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}项目列表 — CNAS{% endblock %}
+{% block content %}
+<h2>项目列表</h2>
+
+<div class="card" id="create-form">
+    <h3>新建项目</h3>
+    <form id="project-form" enctype="multipart/form-data">
+        <label>项目名称: <input type="text" name="name" required placeholder="如: YP-34944-E-007"></label>
+        <label>上传 ZIP: <input type="file" name="file" accept=".zip"></label>
+        <label>或 Git URL: <input type="text" name="git_url" placeholder="https://github.com/user/repo.git"></label>
+        <button type="submit">创建项目</button>
+    </form>
+    <div id="create-status"></div>
+</div>
+
+<div class="card">
+    <h3>已有项目</h3>
+    <table id="project-table">
+        <thead><tr>
+            <th>ID</th><th>名称</th><th>来源</th><th>创建时间</th><th>操作</th>
+        </tr></thead>
+        <tbody id="project-tbody"><tr><td colspan="5">加载中...</td></tr></tbody>
+    </table>
+</div>
+
+<script>
+// 加载项目列表
+async function loadProjects() {
+    const resp = await fetch('/api/projects');
+    const projects = await resp.json();
+    const tbody = document.getElementById('project-tbody');
+    if (projects.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5">暂无项目，请创建一个</td></tr>';
+        return;
+    }
+    tbody.innerHTML = projects.map(p => `
+        <tr>
+            <td>${p.id}</td>
+            <td><a href="/projects/${p.id}">${p.name}</a></td>
+            <td>${p.source_type === 'git' ? 'Git' : '上传'}</td>
+            <td>${p.created_at.slice(0,10)}</td>
+            <td><a href="/projects/${p.id}">查看</a></td>
+        </tr>
+    `).join('');
+}
+
+// 创建项目
+document.getElementById('project-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = new FormData(e.target);
+    const status = document.getElementById('create-status');
+    status.textContent = '创建中...';
+
+    const resp = await fetch('/api/projects', { method: 'POST', body: form });
+    if (resp.ok) {
+        status.textContent = '✅ 创建成功';
+        loadProjects();
+        e.target.reset();
+    } else {
+        const err = await resp.json();
+        status.textContent = '❌ ' + (err.detail || '创建失败');
+    }
+});
+
+loadProjects();
+</script>
+{% endblock %}

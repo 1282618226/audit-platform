@@ -1,0 +1,707 @@
+{
+  "不可控的内存分配": {
+    "vuln_name": "不可控的内存分配",
+    "category": "行为问题",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.1.1",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.1.1",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "不可信的搜索路径": {
+    "vuln_name": "不可信的搜索路径",
+    "category": "路径错误",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.2.1",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.2.1",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "相对路径遍历": {
+    "vuln_name": "相对路径遍历",
+    "category": "数据处理",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.3.1",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.3.1",
+        "language": "C/C++"
+      },
+      {
+        "standard": "GB/T 39412-2020",
+        "clause": "8.4.4",
+        "language": "通用"
+      }
+    ]
+  },
+  "信息通过持久cookie泄露": {
+    "vuln_name": "信息通过持久cookie泄露",
+    "category": "数据处理",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.3.10",
+        "language": "Java"
+      }
+    ]
+  },
+  "未检查的输入作为循环条件": {
+    "vuln_name": "未检查的输入作为循环条件",
+    "category": "数据处理",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.3.11",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.3.12",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "xpath注入": {
+    "vuln_name": "XPath注入",
+    "category": "数据处理",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.3.12",
+        "language": "Java"
+      }
+    ]
+  },
+  "绝对路径遍历": {
+    "vuln_name": "绝对路径遍历",
+    "category": "数据处理",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.3.2",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.3.2",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "命令注入": {
+    "vuln_name": "命令注入",
+    "category": "数据处理",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.3.3",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.3.3",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "sql注入": {
+    "vuln_name": "SQL注入",
+    "category": "数据处理",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.3.4",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.3.4",
+        "language": "C/C++"
+      },
+      {
+        "standard": "GB/T 39412-2020",
+        "clause": "8.3.2",
+        "language": "通用"
+      }
+    ]
+  },
+  "代码注入": {
+    "vuln_name": "代码注入",
+    "category": "数据处理",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.3.5",
+        "language": "Java"
+      }
+    ]
+  },
+  "进程控制": {
+    "vuln_name": "进程控制",
+    "category": "数据处理",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.3.6",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.3.5",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "信息通过错误消息泄露": {
+    "vuln_name": "信息通过错误消息泄露",
+    "category": "数据处理",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.3.7",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.3.9",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "信息通过服务器日志文件泄露": {
+    "vuln_name": "信息通过服务器日志文件泄露",
+    "category": "数据处理",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.3.8",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.3.10",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "信息通过调试日志文件泄露": {
+    "vuln_name": "信息通过调试日志文件泄露",
+    "category": "数据处理",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.3.9",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.3.11",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "未限制危险类型文件的上传": {
+    "vuln_name": "未限制危险类型文件的上传",
+    "category": "处理程序错误",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.4.1",
+        "language": "Java"
+      }
+    ]
+  },
+  "可序列化的类包含敏感数据": {
+    "vuln_name": "可序列化的类包含敏感数据",
+    "category": "不充分的封装",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.5.1",
+        "language": "Java"
+      }
+    ]
+  },
+  "违反信任边界": {
+    "vuln_name": "违反信任边界",
+    "category": "不充分的封装",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.5.2",
+        "language": "Java"
+      }
+    ]
+  },
+  "明文存储口令": {
+    "vuln_name": "明文存储口令",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.6.1",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.7.1",
+        "language": "C/C++"
+      },
+      {
+        "standard": "GB/T 39412-2020",
+        "clause": "6.3.2.2",
+        "language": "通用"
+      }
+    ]
+  },
+  "不充分的随机数": {
+    "vuln_name": "不充分的随机数",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.6.10",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.7.8",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "安全关键的行为依赖反向域名解析": {
+    "vuln_name": "安全关键的行为依赖反向域名解析",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.6.11",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.7.9",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "关键参数篡改": {
+    "vuln_name": "关键参数篡改",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.6.12",
+        "language": "Java"
+      }
+    ]
+  },
+  "没有要求使用强口令": {
+    "vuln_name": "没有要求使用强口令",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.6.13",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.7.10",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "没有对口令域进行掩饰": {
+    "vuln_name": "没有对口令域进行掩饰",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.6.14",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.7.11",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "依赖未经验证和完整性检查的cookie": {
+    "vuln_name": "依赖未经验证和完整性检查的cookie",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.6.15",
+        "language": "Java"
+      }
+    ]
+  },
+  "通过用户控制的sql关键字绕过授权": {
+    "vuln_name": "通过用户控制的SQL关键字绕过授权",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.6.16",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.7.12",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "https会话中的敏感cookie没有设置安全属性": {
+    "vuln_name": "HTTPS会话中的敏感cookie没有设置安全属性",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.6.17",
+        "language": "Java"
+      }
+    ]
+  },
+  "未使用盐值计算散列值": {
+    "vuln_name": "未使用盐值计算散列值",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.6.18",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.7.13",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "rsa算法未使用最优非对称加密填充": {
+    "vuln_name": "RSA算法未使用最优非对称加密填充",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.6.19",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.7.14",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "存储可恢复的口令": {
+    "vuln_name": "存储可恢复的口令",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.6.2",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.7.2",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "口令硬编码": {
+    "vuln_name": "口令硬编码",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.6.3",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.7.3",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "依赖referer字段进行身份鉴别": {
+    "vuln_name": "依赖referer字段进行身份鉴别",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.6.4",
+        "language": "Java"
+      }
+    ]
+  },
+  "cookie中的敏感信息明文存储": {
+    "vuln_name": "Cookie中的敏感信息明文存储",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.6.5",
+        "language": "Java"
+      }
+    ]
+  },
+  "敏感信息明文传输": {
+    "vuln_name": "敏感信息明文传输",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.6.6",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.7.4",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "使用已破解或危险的加密算法": {
+    "vuln_name": "使用已破解或危险的加密算法",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.6.7",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.7.5",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "可逆的散列算法": {
+    "vuln_name": "可逆的散列算法",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.6.8",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.7.6",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "密码分组链接模式未使用随机初始化矢量": {
+    "vuln_name": "密码分组链接模式未使用随机初始化矢量",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.6.9",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.7.7",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "会话固定": {
+    "vuln_name": "会话固定",
+    "category": "时间和状态",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.7.1",
+        "language": "Java"
+      }
+    ]
+  },
+  "会话永不过期": {
+    "vuln_name": "会话永不过期",
+    "category": "时间和状态",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.7.2",
+        "language": "Java"
+      }
+    ]
+  },
+  "跨站脚本": {
+    "vuln_name": "跨站脚本",
+    "category": "Web问题",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.8.1",
+        "language": "Java"
+      },
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.8.1",
+        "language": "C/C++"
+      },
+      {
+        "standard": "GB/T 39412-2020",
+        "clause": "6.1.2.1",
+        "language": "通用"
+      }
+    ]
+  },
+  "跨站请求伪造": {
+    "vuln_name": "跨站请求伪造",
+    "category": "Web问题",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.8.2",
+        "language": "Java"
+      }
+    ]
+  },
+  "http响应拆分": {
+    "vuln_name": "HTTP响应拆分",
+    "category": "Web问题",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.8.3",
+        "language": "Java"
+      }
+    ]
+  },
+  "开放重定向": {
+    "vuln_name": "开放重定向",
+    "category": "Web问题",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.8.4",
+        "language": "Java"
+      }
+    ]
+  },
+  "依赖外部提供的文件的名称或扩展名": {
+    "vuln_name": "依赖外部提供的文件的名称或扩展名",
+    "category": "Web问题",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.8.5",
+        "language": "Java"
+      }
+    ]
+  },
+  "点击劫持": {
+    "vuln_name": "点击劫持",
+    "category": "用户界面错误",
+    "standards": [
+      {
+        "standard": "GB/T 34944-2017",
+        "clause": "6.2.9.1",
+        "language": "Java"
+      }
+    ]
+  },
+  "缓冲区溢出": {
+    "vuln_name": "缓冲区溢出",
+    "category": "数据处理",
+    "standards": [
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.3.6",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "使用外部控制的格式化字符串": {
+    "vuln_name": "使用外部控制的格式化字符串",
+    "category": "数据处理",
+    "standards": [
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.3.7",
+        "language": "C/C++"
+      },
+      {
+        "standard": "GB/T 39412-2020",
+        "clause": "7.3.1",
+        "language": "通用"
+      }
+    ]
+  },
+  "整数溢出": {
+    "vuln_name": "整数溢出",
+    "category": "数据处理",
+    "standards": [
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.3.8",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "堆检查": {
+    "vuln_name": "堆检查",
+    "category": "错误的API协议实现",
+    "standards": [
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.4.1",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "敏感信息存储于上锁不正确的内存空间": {
+    "vuln_name": "敏感信息存储于上锁不正确的内存空间",
+    "category": "劣质代码",
+    "standards": [
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.5.1",
+        "language": "C/C++"
+      }
+    ]
+  },
+  "公有函数返回私有数组": {
+    "vuln_name": "公有函数返回私有数组",
+    "category": "不充分的封装",
+    "standards": [
+      {
+        "standard": "GB/T 34943-2017",
+        "clause": "7.2.6.1",
+        "language": "C/C++"
+      }
+    ]
+  }
+}

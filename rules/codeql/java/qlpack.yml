@@ -1,0 +1,5 @@
+name: cnas-codeql-java-queries
+version: 1.0.0
+description: CNAS GB/T 34944-2017 Java CodeQL security queries
+dependencies:
+  codeql/java-all: "*"

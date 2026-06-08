@@ -1,0 +1,5 @@
+name: cnas-codeql-cpp-queries
+version: 1.0.0
+description: CNAS GB/T 34943-2017 C/C++ CodeQL security queries
+dependencies:
+  codeql/cpp-all: "*"
