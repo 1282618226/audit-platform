@@ -21,6 +21,8 @@ import time
 from dataclasses import dataclass, field
 from typing import Any
 
+import requests as _requests
+
 logger = logging.getLogger(__name__)
 
 # Anthropic SDK 会在运行时检查; 如果未安装，在离线模式下也不会用到
@@ -230,7 +232,7 @@ def _build_review_prompt(
 
 
 class LLMClient:
-    """DeepSeek LLM 客户端，通过 Anthropic SDK 调用。
+    """LLM 客户端，三级降级策略: LiteLLM → DeepSeek 直连 → 离线。
 
     用法:
         client = LLMClient(config)
@@ -238,14 +240,22 @@ class LLMClient:
             result = client.review_finding(finding, kb_context)
     """
 
+    # LiteLLM master key（与 litellm-config.yaml 中一致）
+    LITELLM_MASTER_KEY = "sk-litellm-master"
+
     def __init__(self, config: LLMConfig | None = None) -> None:
-        """初始化 LLM 客户端。优先 claude CLI，回退到 Python SDK。"""
+        """初始化 LLM 客户端。
+
+        优先级: claude CLI > Anthropic SDK (LiteLLM) > 离线
+        """
         self._config = config or LLMConfig()
         self._client: Any = None
         self._use_claude = bool(shutil.which("claude"))
+        self._use_litellm = False
+        self._fallback_direct_key = os.environ.get("DEEPSEEK_API_KEY", "")
 
         if self._use_claude:
-            logger.info("LLM: 使用 claude CLI")
+            logger.info("LLM: 使用 claude CLI (Level 1)")
             self._client = True
         elif Anthropic is not None and self._config.api_key:
             self._client = Anthropic(
@@ -254,18 +264,70 @@ class LLMClient:
                 timeout=self._config.timeout,
                 max_retries=0,
             )
-            logger.info("LLM: 使用 Python Anthropic SDK")
+            # 检测是否指向 LiteLLM
+            if "localhost:4000" in self._config.base_url or "litellm" in self._config.base_url:
+                self._use_litellm = True
+                logger.info("LLM: 使用 LiteLLM 代理 (Level 1)")
+            else:
+                logger.info("LLM: 使用 Anthropic SDK 直连")
 
     def is_available(self) -> bool:
-        """LLM 客户端是否可用（有 SDK + 有 API Key）。"""
+        """LLM 客户端是否可用。"""
         return self._client is not None
 
     def check_connectivity(self, timeout: float = 5.0) -> bool:
-        """检测 LLM API 是否可达。"""
+        """检测 LLM API 是否可达。
+
+        优先检测 LiteLLM health endpoint，失败则尝试 DeepSeek 直连。
+        """
         if not self._client:
             return False
-        # 标记为可用，真实调用在 _call_with_retry 中处理失败重试
-        return True
+
+        # Level 1: LiteLLM
+        if self._use_litellm:
+            try:
+                resp = _requests.get(
+                    f"{self._config.base_url}/health",
+                    timeout=timeout,
+                )
+                if resp.status_code == 200:
+                    return True
+            except Exception:
+                logger.warning("LiteLLM 不可达，尝试降级")
+
+        # Level 2: DeepSeek 直连
+        if self._fallback_direct_key:
+            try:
+                resp = _requests.post(
+                    "https://api.deepseek.com/chat/completions",
+                    headers={
+                        "Authorization": f"Bearer {self._fallback_direct_key}",
+                        "Content-Type": "application/json",
+                    },
+                    json={
+                        "model": "deepseek-chat",
+                        "messages": [{"role": "user", "content": "ping"}],
+                        "max_tokens": 1,
+                    },
+                    timeout=timeout,
+                )
+                if resp.status_code in (200, 401):
+                    return True
+            except Exception:
+                pass
+
+        # Anthropic SDK 路径
+        try:
+            import urllib.request
+
+            req = urllib.request.Request(
+                f"{self._config.base_url}/messages",
+                method="HEAD",
+            )
+            urllib.request.urlopen(req, timeout=timeout)
+            return True
+        except Exception:
+            return False
 
     def review_finding(
         self,
@@ -421,23 +483,26 @@ class LLMClient:
     # ─── 内部方法 ────────────────────────────────────────────────
 
     def _call_with_retry(self, system_prompt: str, user_message: str) -> str:
-        """带重试的消息调用。"""
+        """三级降级调用: LiteLLM/SDK → DeepSeek 直连 → error。"""
         last_error: Exception | None = None
+
+        # ── Level 1: claude CLI 或 Anthropic SDK ──
+        if self._use_claude:
+            import subprocess
+
+            full = f"{system_prompt}\n\n{user_message}"
+            r = subprocess.run(
+                ["claude", "-p", full, "--print"],
+                capture_output=True, text=True, timeout=self._config.timeout,
+                env={**os.environ, "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"},
+            )
+            if r.returncode == 0:
+                return r.stdout.strip()
+            raise RuntimeError(f"claude exited {r.returncode}: {r.stderr[:200]}")
 
         for attempt in range(self._config.max_retries + 1):
             try:
                 assert self._client is not None
-                if self._use_claude:
-                    import subprocess
-                    full = f"{system_prompt}\n\n{user_message}"
-                    r = subprocess.run(
-                        ["claude", "-p", full, "--print"],
-                        capture_output=True, text=True, timeout=self._config.timeout,
-                        env={**os.environ, "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"},
-                    )
-                    if r.returncode == 0:
-                        return r.stdout.strip()
-                    raise RuntimeError(f"claude exited {r.returncode}: {r.stderr[:200]}")
                 response = self._client.messages.create(
                     model=self._config.model,
                     max_tokens=self._config.max_tokens,
@@ -459,10 +524,53 @@ class LLMClient:
                 last_error = e
                 if attempt < self._config.max_retries:
                     time.sleep(self._config.retry_delay)
+                continue
+
+        # ── Level 2: DeepSeek OpenAI API 直连 ──
+        if self._fallback_direct_key:
+            logger.warning("Level 1 失败 (%s)，降级到 Level 2 (DeepSeek 直连)", last_error)
+            return self._call_deepseek_direct(
+                f"{system_prompt}\n\n{user_message}" if system_prompt else user_message
+            )
 
         raise RuntimeError(
             f"LLM 调用失败（重试 {self._config.max_retries} 次后仍失败）: {last_error}"
         )
+
+    def _call_deepseek_direct(self, prompt: str) -> str:
+        """直接调 DeepSeek OpenAI Chat Completions API。"""
+        if not self._fallback_direct_key:
+            raise RuntimeError("DeepSeek 直连不可用（DEEPSEEK_API_KEY 未设置）")
+
+        for attempt in range(self._config.max_retries + 1):
+            try:
+                resp = _requests.post(
+                    "https://api.deepseek.com/chat/completions",
+                    headers={
+                        "Authorization": f"Bearer {self._fallback_direct_key}",
+                        "Content-Type": "application/json",
+                    },
+                    json={
+                        "model": self._config.model,
+                        "messages": [
+                            {"role": "user", "content": prompt},
+                        ],
+                        "max_tokens": self._config.max_tokens,
+                    },
+                    timeout=self._config.timeout,
+                )
+                resp.raise_for_status()
+                data = resp.json()
+                return data["choices"][0]["message"]["content"]
+            except Exception as e:
+                if attempt < self._config.max_retries:
+                    time.sleep(self._config.retry_delay)
+                    continue
+                raise RuntimeError(
+                    f"Level 2 (DeepSeek 直连) 也失败: {e}"
+                ) from e
+
+        raise RuntimeError("DeepSeek 直连失败")
 
     @staticmethod
     def _parse_review_response(raw: str, clause: str) -> ReviewResult:

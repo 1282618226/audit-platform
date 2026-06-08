@@ -179,9 +179,10 @@ class TestReviewFinding:
     def test_review_exhausts_retries(
         self, client: LLMClient, sample_finding: dict
     ) -> None:
-        """全部重试失败应抛出 RuntimeError。"""
+        """全部重试失败应抛出 RuntimeError（禁用 DeepSeek 直连降级）。"""
         assert client._client is not None
         client._client.messages.create.side_effect = ConnectionError("持续失败")
+        client._fallback_direct_key = ""  # 禁用 Level 2 降级
 
         with pytest.raises(RuntimeError, match="LLM 调用失败"):
             client.review_finding(sample_finding, "ctx")
