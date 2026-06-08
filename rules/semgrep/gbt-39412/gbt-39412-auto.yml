@@ -389,3 +389,195 @@ rules:
     metadata:
       gb_standard: GB/T 39412-2020
       gb_clause: "6.3.1.4"
+
+  # 6.3.2.1 登录口令
+  - id: gbt-39412-6-3-2-1
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 6.3.2.1】登录口令
+    patterns:
+      - pattern-either:
+          - pattern: input type="text"
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.3.2.1"
+
+  # 6.3.2.3 明文传递口令
+  - id: gbt-39412-6-3-2-3
+    languages: ['java']
+    severity: ERROR
+    message: 【GB/T 39412-2020 6.3.2.3】明文传递口令
+    patterns:
+      - pattern-either:
+          - pattern: URL($URL).openConnection()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.3.2.3"
+
+  # 6.4.1 对输出日志中特殊元素处理
+  - id: gbt-39412-6-4-1
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 6.4.1】对输出日志中特殊元素处理
+    patterns:
+      - pattern-either:
+          - pattern: $LOG.error($MSG + $REQ.getParameter(...))
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.4.1"
+
+  # 6.4.2 信息丢失或遗漏
+  - id: gbt-39412-6-4-2
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.4.2】信息丢失或遗漏
+    patterns:
+      - pattern-either:
+          - pattern: $LOG.info($REQ.getParameter(...))
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.4.2"
+
+  # 8.1.1 重复释放资源
+  - id: gbt-39412-8-1-1
+    languages: ['c', 'cpp']
+    severity: ERROR
+    message: 【GB/T 39412-2020 8.1.1】重复释放资源
+    patterns:
+      - pattern-either:
+          - pattern: free($PTR)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.1.1"
+
+  # 8.1.2 资源或变量不安全初始化
+  - id: gbt-39412-8-1-2
+    languages: ['c', 'cpp']
+    severity: WARNING
+    message: 【GB/T 39412-2020 8.1.2】资源或变量不安全初始化
+    patterns:
+      - pattern-either:
+          - pattern: malloc($SIZE)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.1.2"
+
+  # 8.1.5 资源不安全清理
+  - id: gbt-39412-8-1-5
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 8.1.5】资源不安全清理
+    patterns:
+      - pattern-either:
+          - pattern: delete $FILE
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.1.5"
+
+  # 8.2.1 内存分配释放函数成对调用
+  - id: gbt-39412-8-2-1
+    languages: ['c', 'cpp']
+    severity: WARNING
+    message: 【GB/T 39412-2020 8.2.1】内存分配释放函数成对调用
+    patterns:
+      - pattern-either:
+          - pattern: malloc($N)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.2.1"
+
+  # 8.2.2 堆内存释放
+  - id: gbt-39412-8-2-2
+    languages: ['c', 'cpp']
+    severity: ERROR
+    message: 【GB/T 39412-2020 8.2.2】堆内存释放
+    patterns:
+      - pattern-either:
+          - pattern: free($PTR)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.2.2"
+
+  # 8.2.3 内存未释放
+  - id: gbt-39412-8-2-3
+    languages: ['c', 'cpp']
+    severity: WARNING
+    message: 【GB/T 39412-2020 8.2.3】内存未释放
+    patterns:
+      - pattern-either:
+          - pattern: malloc($N)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.2.3"
+
+  # 8.2.4 访问已释放内存
+  - id: gbt-39412-8-2-4
+    languages: ['c', 'cpp']
+    severity: ERROR
+    message: 【GB/T 39412-2020 8.2.4】访问已释放内存
+    patterns:
+      - pattern-either:
+          - pattern: $PTR->$FIELD
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.2.4"
+
+  # 8.2.9 堆空间耗尽
+  - id: gbt-39412-8-2-9
+    languages: ['c', 'cpp']
+    severity: INFO
+    message: 【GB/T 39412-2020 8.2.9】堆空间耗尽
+    patterns:
+      - pattern-either:
+          - pattern: malloc($BIG)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.2.9"
+
+  # 8.5.5 会话过期机制缺失
+  - id: gbt-39412-8-5-5
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 8.5.5】会话过期机制缺失
+    patterns:
+      - pattern-either:
+          - pattern: $REQ.getSession().setMaxInactiveInterval(-1)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.5.5"
+
+  # 8.5.6 会话标识符
+  - id: gbt-39412-8-5-6
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 8.5.6】会话标识符
+    patterns:
+      - pattern-either:
+          - pattern: UUID.randomUUID().toString()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.5.6"
+
+  # 9.1 遗留调试代码
+  - id: gbt-39412-9-1
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 9.1】遗留调试代码
+    patterns:
+      - pattern-either:
+          - pattern: System.out.println($VAR)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "9.1"
+
+  # 9.3 保护重要配置信息
+  - id: gbt-39412-9-3
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 9.3】保护重要配置信息
+    patterns:
+      - pattern-either:
+          - pattern: $CONFIG.getProperty($KEY)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "9.3"

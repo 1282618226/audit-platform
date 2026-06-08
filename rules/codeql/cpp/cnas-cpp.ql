@@ -41,3 +41,17 @@ where
   sl.getParent() instanceof FunctionCall
   and sl.getParent().(FunctionCall).getTarget().hasName("strcmp")
 select sl, "【GB/T 34943-2017 7.2.7.3】可能的口令硬编码"
+
+// ─── 8.1.1 重复释放 ──────────────────────────────────────────────
+from FunctionCall fc
+where
+  fc.getTarget().hasName("free")
+select fc, "【GB/T 39412-2020 8.1.1】重复释放 — 检查是否同一指针被释放多次"
+
+// ─── 8.2.3 内存泄漏 ──────────────────────────────────────────────
+from FunctionCall fc
+where
+  fc.getTarget().hasName("malloc")
+  or fc.getTarget().hasName("calloc")
+  or fc.getTarget().hasName("realloc")
+select fc, "【GB/T 39412-2020 8.2.3】内存分配 — 检查是否在异常路径中正确释放"

@@ -708,5 +708,71 @@
         "language": "C/C++"
       }
     ]
+  },
+  "resource-double-free": {
+    "vuln_name": "重复释放资源",
+    "category": "资源使用安全缺陷",
+    "standards": [
+      {
+        "standard": "GB/T 39412-2020",
+        "clause": "8.1.1",
+        "language": "通用"
+      }
+    ]
+  },
+  "unsafe-initialization": {
+    "vuln_name": "资源或变量不安全初始化",
+    "category": "资源使用安全缺陷",
+    "standards": [
+      {
+        "standard": "GB/T 39412-2020",
+        "clause": "8.1.2",
+        "language": "通用"
+      }
+    ]
+  },
+  "unsafe-resource-cleanup": {
+    "vuln_name": "资源不安全清理",
+    "category": "资源使用安全缺陷",
+    "standards": [
+      {
+        "standard": "GB/T 39412-2020",
+        "clause": "8.1.5",
+        "language": "通用"
+      }
+    ]
+  },
+  "debug-code-in-production": {
+    "vuln_name": "遗留调试代码",
+    "category": "环境安全缺陷",
+    "standards": [
+      {
+        "standard": "GB/T 39412-2020",
+        "clause": "9.1",
+        "language": "通用"
+      }
+    ]
+  },
+  "config-info-protection": {
+    "vuln_name": "保护重要配置信息",
+    "category": "环境安全缺陷",
+    "standards": [
+      {
+        "standard": "GB/T 39412-2020",
+        "clause": "9.3",
+        "language": "通用"
+      }
+    ]
+  },
+  "session-expiry": {
+    "vuln_name": "会话过期机制缺失",
+    "category": "安全功能",
+    "standards": [
+      {
+        "standard": "GB/T 39412-2020",
+        "clause": "8.5.5",
+        "language": "通用"
+      }
+    ]
   }
 }

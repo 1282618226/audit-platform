@@ -46,3 +46,21 @@ where
   sl.getParent() instanceof EqExpr
   or sl.getParent() instanceof AssignExpr
 select sl, "【GB/T 34944-2017 6.2.6.3】可能的口令硬编码 — 应使用外部配置"
+
+// ─── 6.2.8.2 CSRF ────────────────────────────────────────────────
+from MethodAccess ma
+where
+  ma.getMethod().hasQualifiedName("javax.servlet.http", "HttpServlet", ["doPost","doPut","doDelete"])
+select ma, "【GB/T 34944-2017 6.2.8.2】CSRF — 应验证 CSRF token"
+
+// ─── 6.2.8.4 开放重定向 ──────────────────────────────────────────
+from MethodAccess ma
+where
+  ma.getMethod().hasName("sendRedirect")
+select ma, "【GB/T 34944-2017 6.2.8.4】开放重定向 — 应验证重定向 URL"
+
+// ─── 6.2.7.1 会话固定 ────────────────────────────────────────────
+from MethodAccess ma
+where
+  ma.getMethod().hasName("getSession")
+select ma, "【GB/T 34944-2017 6.2.7.1】会话固定 — 应在登录后调用 changeSessionId 或 invalidate"
