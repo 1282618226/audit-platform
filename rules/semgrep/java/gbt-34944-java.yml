@@ -783,3 +783,52 @@ rules:
       vuln_name: "未使用盐值计算散列值"
       category: 安全功能
 
+
+  # ─── 6.2.7.2 会话永不过期 ───
+  - id: gbt-34944-6.2.7.2-session-never-expire
+    languages: [xml]
+    severity: INFO
+    message: >
+      【GB/T 34944-2017 6.2.7.2】会话永不过期
+      web.xml 中 session-timeout 设置为 -1，会话永不过期。
+      应设置合理超时时间（如30分钟）。
+    patterns:
+      - pattern-either:
+          - pattern: |
+              <session-timeout>-1</session-timeout>
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.7.2"
+      vuln_name: "会话永不过期"
+      category: 时间和状态
+      cwe: "CWE-613"
+
+  # ─── 6.2.9.1 点击劫持 ───
+  - id: gbt-34944-6.2.9.1-clickjacking
+    languages: [java]
+    severity: INFO
+    message: >
+      【GB/T 34944-2017 6.2.9.1】点击劫持
+      doGet/doPost 响应中未设置 X-Frame-Options 头，
+      页面可能被嵌入恶意 iframe。
+    patterns:
+      - patterns:
+          - pattern-inside: |
+              $RET $METHOD(HttpServletRequest $REQ, HttpServletResponse $RESP) {
+                ...
+              }
+          - pattern: $RESP.getWriter().write(...)
+          - pattern-not: |
+              ...
+              $RESP.addHeader("X-Frame-Options", ...)
+              ...
+          - pattern-not: |
+              ...
+              $RESP.setHeader("X-Frame-Options", ...)
+              ...
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.9.1"
+      vuln_name: "点击劫持"
+      category: 用户界面错误
+      cwe: "CWE-1021"
