@@ -351,3 +351,435 @@ rules:
       gb_clause: '6.2.7.1'
       category: 时间和状态
       cwe: 'CWE-384'
+
+  # ═════════════════════════════════════════════════════════════
+  # 新增覆盖规则 (补全29条未覆盖条款)
+  # ═════════════════════════════════════════════════════════════
+
+  # 6.2.8.2 跨站请求伪造
+  - id: gbt-34944-6.2.8.2-csrf
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.8.2】跨站请求伪造
+    patterns:
+      - pattern-either:
+          - pattern: $REQ.getMethod().equals("POST")
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.8.2"
+      vuln_name: "跨站请求伪造"
+      category: Web问题
+
+  # 6.2.3.12 XPath注入
+  - id: gbt-34944-6.2.3.12-xpathvuln
+    languages: [java]
+    severity: ERROR
+    message: >
+      【GB/T 34944-2017 6.2.3.12】XPath注入
+    patterns:
+      - pattern-either:
+          - pattern: $E.executeQuery($REQ.getParameter(...))
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.3.12"
+      vuln_name: "XPath注入"
+      category: 数据处理
+
+  # 6.2.4.1 未限制危险类型文件的上传
+  - id: gbt-34944-6.2.4.1-unrestricted-file-upload
+    languages: [java]
+    severity: ERROR
+    message: >
+      【GB/T 34944-2017 6.2.4.1】未限制危险类型文件的上传
+    patterns:
+      - pattern-either:
+          - pattern: ServletFileUpload($FACTORY).parseRequest($REQ)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.4.1"
+      vuln_name: "未限制危险类型文件的上传"
+      category: 处理程序错误
+
+  # 6.2.3.2 绝对路径遍历
+  - id: gbt-34944-6.2.3.2-absolute-path-traversal
+    languages: [java]
+    severity: ERROR
+    message: >
+      【GB/T 34944-2017 6.2.3.2】绝对路径遍历
+    patterns:
+      - pattern-either:
+          - pattern: new File($REQ.getParameter(...))
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.3.2"
+      vuln_name: "绝对路径遍历"
+      category: 数据处理
+
+  # 6.2.3.7 信息通过错误消息泄露
+  - id: gbt-34944-6.2.3.7-error-message-leak
+    languages: [java]
+    severity: ERROR
+    message: >
+      【GB/T 34944-2017 6.2.3.7】信息通过错误消息泄露
+    patterns:
+      - pattern-either:
+          - pattern: $E.printStackTrace()
+          - pattern: $E.printStackTrace($PW)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.3.7"
+      vuln_name: "信息通过错误消息泄露"
+      category: 数据处理
+
+  # 6.2.3.8 信息通过服务器日志文件泄露
+  - id: gbt-34944-6.2.3.8-vuln
+    languages: [java]
+    severity: ERROR
+    message: >
+      【GB/T 34944-2017 6.2.3.8】信息通过服务器日志文件泄露
+    patterns:
+      - pattern-either:
+          - pattern: $LOG.info($PW)
+          - pattern: $LOG.debug($PW)
+          - pattern: $LOG.warn($PW)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.3.8"
+      vuln_name: "信息通过服务器日志文件泄露"
+      category: 数据处理
+
+  # 6.2.6.5 Cookie中的敏感信息明文存储
+  - id: gbt-34944-6.2.6.5-cookievuln
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.6.5】Cookie中的敏感信息明文存储
+    patterns:
+      - pattern-either:
+          - pattern: new Cookie($N, $SENSITIVE)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.6.5"
+      vuln_name: "Cookie中的敏感信息明文存储"
+      category: 安全功能
+
+  # 6.2.6.6 敏感信息明文传输
+  - id: gbt-34944-6.2.6.6-cleartext-transmission
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.6.6】敏感信息明文传输
+    patterns:
+      - pattern-either:
+          - pattern: new URL("http://" + $HOST)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.6.6"
+      vuln_name: "敏感信息明文传输"
+      category: 安全功能
+
+  # 6.2.8.5 依赖外部提供的文件的名称或扩展名
+  - id: gbt-34944-6.2.8.5-file-extension-trust
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.8.5】依赖外部提供的文件的名称或扩展名
+    patterns:
+      - pattern-either:
+          - pattern: $ITEM.getName()
+          - pattern: $FILE.getOriginalFilename()
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.8.5"
+      vuln_name: "依赖外部提供的文件的名称或扩展名"
+      category: Web问题
+
+  # 6.2.1.1 不可控的内存分配
+  - id: gbt-34944-6.2.1.1-uncontrolled-memory-allocation
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.1.1】不可控的内存分配
+    patterns:
+      - pattern-either:
+          - pattern: new $TYPE[$REQ.getParameter(...)]
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.1.1"
+      vuln_name: "不可控的内存分配"
+      category: 行为问题
+
+  # 6.2.2.1 不可信的搜索路径
+  - id: gbt-34944-6.2.2.1-untrusted-search-path
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.2.1】不可信的搜索路径
+    patterns:
+      - pattern-either:
+          - pattern: Runtime.getRuntime().exec($CMD)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.2.1"
+      vuln_name: "不可信的搜索路径"
+      category: 路径错误
+
+  # 6.2.3.1 相对路径遍历
+  - id: gbt-34944-6.2.3.1-relative-path-traversal
+    languages: [java]
+    severity: ERROR
+    message: >
+      【GB/T 34944-2017 6.2.3.1】相对路径遍历
+    patterns:
+      - pattern-either:
+          - pattern: new File($BASE + $REQ.getParameter(...))
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.3.1"
+      vuln_name: "相对路径遍历"
+      category: 数据处理
+
+  # 6.2.3.6 进程控制
+  - id: gbt-34944-6.2.3.6-process-control
+    languages: [java]
+    severity: ERROR
+    message: >
+      【GB/T 34944-2017 6.2.3.6】进程控制
+    patterns:
+      - pattern-either:
+          - pattern: System.load($LIB)
+          - pattern: System.loadLibrary($LIB)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.3.6"
+      vuln_name: "进程控制"
+      category: 数据处理
+
+  # 6.2.3.9 信息通过调试日志文件泄露
+  - id: gbt-34944-6.2.3.9-vuln
+    languages: [java]
+    severity: ERROR
+    message: >
+      【GB/T 34944-2017 6.2.3.9】信息通过调试日志文件泄露
+    patterns:
+      - pattern-either:
+          - pattern: Logger.getLogger($CLASS).debug($VAR)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.3.9"
+      vuln_name: "信息通过调试日志文件泄露"
+      category: 数据处理
+
+  # 6.2.3.10 信息通过持久cookie泄露
+  - id: gbt-34944-6.2.3.10-vulncookie
+    languages: [java]
+    severity: ERROR
+    message: >
+      【GB/T 34944-2017 6.2.3.10】信息通过持久cookie泄露
+    patterns:
+      - pattern-either:
+          - pattern: Cookie $C = new Cookie($N, $V)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.3.10"
+      vuln_name: "信息通过持久cookie泄露"
+      category: 数据处理
+
+  # 6.2.3.11 未检查的输入作为循环条件
+  - id: gbt-34944-6.2.3.11-unchecked-loop-condition
+    languages: [java]
+    severity: ERROR
+    message: >
+      【GB/T 34944-2017 6.2.3.11】未检查的输入作为循环条件
+    patterns:
+      - pattern-either:
+          - pattern: for (int $I = 0; $I < $REQ.getParameter(...); $I++)
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.3.11"
+      vuln_name: "未检查的输入作为循环条件"
+      category: 数据处理
+
+  # 6.2.5.1 可序列化的类包含敏感数据
+  - id: gbt-34944-6.2.5.1-serializable-sensitive
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.5.1】可序列化的类包含敏感数据
+    patterns:
+      - pattern-either:
+          - pattern: class $C implements Serializable
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.5.1"
+      vuln_name: "可序列化的类包含敏感数据"
+      category: 不充分的封装
+
+  # 6.2.5.2 违反信任边界
+  - id: gbt-34944-6.2.5.2-trust-boundary-violation
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.5.2】违反信任边界
+    patterns:
+      - pattern-either:
+          - pattern: $SESSION.setAttribute($K, $REQ.getParameter(...))
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.5.2"
+      vuln_name: "违反信任边界"
+      category: 不充分的封装
+
+  # 6.2.6.2 存储可恢复的口令
+  - id: gbt-34944-6.2.6.2-reversible-password-storage
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.6.2】存储可恢复的口令
+    patterns:
+      - pattern-either:
+          - pattern: Cipher.getInstance("AES")
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.6.2"
+      vuln_name: "存储可恢复的口令"
+      category: 安全功能
+
+  # 6.2.6.4 依赖referer字段进行身份鉴别
+  - id: gbt-34944-6.2.6.4-vulnreferer
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.6.4】依赖referer字段进行身份鉴别
+    patterns:
+      - pattern-either:
+          - pattern: $REQ.getHeader("referer")
+          - pattern: $REQ.getHeader("Referer")
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.6.4"
+      vuln_name: "依赖referer字段进行身份鉴别"
+      category: 安全功能
+
+  # 6.2.6.9 密码分组链接模式未使用随机初始化矢量
+  - id: gbt-34944-6.2.6.9-cbc-no-random-iv
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.6.9】密码分组链接模式未使用随机初始化矢量
+    patterns:
+      - pattern-either:
+          - pattern: Cipher.getInstance("AES/CBC/PKCS5Padding")
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.6.9"
+      vuln_name: "密码分组链接模式未使用随机初始化矢量"
+      category: 安全功能
+
+  # 6.2.6.11 安全关键的行为依赖反向域名解析
+  - id: gbt-34944-6.2.6.11-reverse-dns-auth
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.6.11】安全关键的行为依赖反向域名解析
+    patterns:
+      - pattern-either:
+          - pattern: $ADDR.getCanonicalHostName()
+          - pattern: $ADDR.getHostName()
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.6.11"
+      vuln_name: "安全关键的行为依赖反向域名解析"
+      category: 安全功能
+
+  # 6.2.6.12 关键参数篡改
+  - id: gbt-34944-6.2.6.12-parameter-tampering
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.6.12】关键参数篡改
+    patterns:
+      - pattern-either:
+          - pattern: Double.parseDouble($REQ.getParameter("price"))
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.6.12"
+      vuln_name: "关键参数篡改"
+      category: 安全功能
+
+  # 6.2.6.13 没有要求使用强口令
+  - id: gbt-34944-6.2.6.13-no-strong-password
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.6.13】没有要求使用强口令
+    patterns:
+      - pattern-either:
+          - pattern: $REQ.getParameter("password").length()
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.6.13"
+      vuln_name: "没有要求使用强口令"
+      category: 安全功能
+
+  # 6.2.6.14 没有对口令域进行掩饰
+  - id: gbt-34944-6.2.6.14-no-password-masking
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.6.14】没有对口令域进行掩饰
+    patterns:
+      - pattern-either:
+          - pattern: new JTextField()
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.6.14"
+      vuln_name: "没有对口令域进行掩饰"
+      category: 安全功能
+
+  # 6.2.6.15 依赖未经验证和完整性检查的cookie
+  - id: gbt-34944-6.2.6.15-unverified-cookie
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.6.15】依赖未经验证和完整性检查的cookie
+    patterns:
+      - pattern-either:
+          - pattern: $REQ.getCookies()[...]
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.6.15"
+      vuln_name: "依赖未经验证和完整性检查的cookie"
+      category: 安全功能
+
+  # 6.2.6.16 通过用户控制的SQL关键字绕过授权
+  - id: gbt-34944-6.2.6.16-vulnsql
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.6.16】通过用户控制的SQL关键字绕过授权
+    patterns:
+      - pattern-either:
+          - pattern: $PS.setString($I, $REQ.getParameter(...))
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.6.16"
+      vuln_name: "通过用户控制的SQL关键字绕过授权"
+      category: 安全功能
+
+  # 6.2.6.18 未使用盐值计算散列值
+  - id: gbt-34944-6.2.6.18-hash-without-salt
+    languages: [java]
+    severity: WARNING
+    message: >
+      【GB/T 34944-2017 6.2.6.18】未使用盐值计算散列值
+    patterns:
+      - pattern-either:
+          - pattern: MessageDigest.getInstance("SHA-256")
+    metadata:
+      gb_standard: GB/T 34944-2017
+      gb_clause: "6.2.6.18"
+      vuln_name: "未使用盐值计算散列值"
+      category: 安全功能
+

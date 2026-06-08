@@ -1,0 +1,391 @@
+# GB/T 39412-2020 Semgrep rules
+rules:
+
+  - id: gbt-39412-6-1-1-1
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.1.1.1】关键状态数据外部可控
+    patterns:
+      - pattern-either:
+          - pattern: system()
+          - pattern: popen()
+          - pattern: execlp()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.1.1"
+
+  - id: gbt-39412-6-1-1-2
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.1.1.2】数据真实性验证
+    patterns:
+      - pattern-either:
+          - pattern: 权限判断逻辑
+          - pattern: session.setAttribute()
+          - pattern: request.getSession()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.1.2"
+
+  - id: gbt-39412-6-1-1-3
+    languages: ['java']
+    severity: ERROR
+    message: 【GB/T 39412-2020 6.1.1.3】绕过数据净化和验证
+    patterns:
+      - pattern-either:
+          - pattern: replaceAll()
+          - pattern: contains()
+          - pattern: indexOf()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.1.3"
+
+  - id: gbt-39412-6-1-1-4
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.1.1.4】在字符串验证前未进行过滤
+    patterns:
+      - pattern-either:
+          - pattern: equals()
+          - pattern: contains()
+          - pattern: startsWith()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.1.4"
+
+  - id: gbt-39412-6-1-1-5
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.1.1.5】对HTTP头Web脚本特殊元素处理
+    patterns:
+      - pattern-either:
+          - pattern: response.setHeader()
+          - pattern: headers.add()
+          - pattern: headers.set()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.1.5"
+
+  - id: gbt-39412-6-1-1-6
+    languages: ['java']
+    severity: ERROR
+    message: 【GB/T 39412-2020 6.1.1.6】命令行注入
+    patterns:
+      - pattern-either:
+          - pattern: system()
+          - pattern: popen()
+          - pattern: execve()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.1.6"
+
+  - id: gbt-39412-6-1-1-7
+    languages: ['c', 'cpp']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.1.1.7】数据结构控制域安全
+    patterns:
+      - pattern-either:
+          - pattern: strlen()
+          - pattern: printf()
+          - pattern: strcpy()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.1.7"
+
+  - id: gbt-39412-6-1-1-8
+    languages: ['c', 'cpp']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.1.1.8】忽略字符串结尾符
+    patterns:
+      - pattern-either:
+          - pattern: dest[i]='\0'
+          - pattern: strlen()
+          - pattern: printf()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.1.8"
+
+  - id: gbt-39412-6-1-1-9
+    languages: ['c', 'cpp']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.1.1.9】对环境变量长度做出假设
+    patterns:
+      - pattern-either:
+          - pattern: strcpy()
+          - pattern: sprintf()
+          - pattern: strcat()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.1.9"
+
+  - id: gbt-39412-6-1-1-10
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.1.1.10】条件比较不充分
+    patterns:
+      - pattern-either:
+          - pattern: if条件
+          - pattern: switch语句
+          - pattern: 比较运算(==
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.1.10"
+
+  - id: gbt-39412-6-1-1-11
+    languages: ['c', 'cpp']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.1.1.11】结构体长度
+    patterns:
+      - pattern-either:
+          - pattern: malloc()
+          - pattern: memcpy()
+          - pattern: memmove()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.1.11"
+
+  - id: gbt-39412-6-1-1-12
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.1.1.12】数值赋值越界
+    patterns:
+      - pattern-either:
+          - pattern: malloc()
+          - pattern: calloc()
+          - pattern: realloc()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.1.12"
+
+  - id: gbt-39412-6-1-1-13
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.1.1.13】除零错误
+    patterns:
+      - pattern-either:
+          - pattern: 除法
+          - pattern: 取模
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.1.13"
+
+  - id: gbt-39412-6-1-1-14
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.1.1.14】边界值检查缺失
+    patterns:
+      - pattern-either:
+          - pattern: 数组索引
+          - pattern: arr[]
+          - pattern: vector[]
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.1.14"
+
+  - id: gbt-39412-6-1-1-15
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.1.1.15】数据信任边界的违背
+    patterns:
+      - pattern-either:
+          - pattern: 反序列化
+          - pattern: readObject()
+          - pattern: deserialize()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.1.15"
+
+  - id: gbt-39412-6-1-1-16
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.1.1.16】条件语句缺失默认情况
+    patterns:
+      - pattern-either:
+          - pattern: switch分支
+          - pattern: if/else
+          - pattern: 枚举处理
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.1.16"
+
+  - id: gbt-39412-6-1-1-17
+    languages: ['java']
+    severity: ERROR
+    message: 【GB/T 39412-2020 6.1.1.17】无法执行的死代码
+    patterns:
+      - pattern-either:
+          - pattern: return后代码
+          - pattern: continue后代码
+          - pattern: break后代码
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.1.17"
+
+  - id: gbt-39412-6-1-1-18
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.1.1.18】表达式永真或永假
+    patterns:
+      - pattern-either:
+          - pattern: while()
+          - pattern: for()
+          - pattern: if()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.1.18"
+
+  - id: gbt-39412-6-1-2-1
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.1.2.1】跨站脚本
+    patterns:
+      - pattern-either:
+          - pattern: innerHTML
+          - pattern: document.write()
+          - pattern: eval()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.2.1"
+
+  - id: gbt-39412-6-1-2-2
+    languages: ['java']
+    severity: ERROR
+    message: 【GB/T 39412-2020 6.1.2.2】Web应用重定向后执行额外代码
+    patterns:
+      - pattern-either:
+          - pattern: 重定向
+          - pattern: redirect()
+          - pattern: sendRedirect()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.2.2"
+
+  - id: gbt-39412-6-1-2-3
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 6.1.2.3】URL重定向
+    patterns:
+      - pattern-either:
+          - pattern: 重定向
+          - pattern: redirect()
+          - pattern: sendRedirect()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.1.2.3"
+
+  - id: gbt-39412-6-2-1-1
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.2.1.1】密码安全
+    patterns:
+      - pattern-either:
+          - pattern: 密码存储
+          - pattern: 哈希
+          - pattern: hash
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.2.1.1"
+
+  - id: gbt-39412-6-2-1-2
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.2.1.2】随机数安全
+    patterns:
+      - pattern-either:
+          - pattern: Random
+          - pattern: random()
+          - pattern: rand()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.2.1.2"
+
+  - id: gbt-39412-6-2-1-3
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.2.1.3】使用安全相关的硬编码
+    patterns:
+      - pattern-either:
+          - pattern: 源代码字面量赋值
+          - pattern: static final常量
+          - pattern: 变量初始化
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.2.1.3"
+
+  - id: gbt-39412-6-2-2-1
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 6.2.2.1】敏感信息暴露
+    patterns:
+      - pattern-either:
+          - pattern: 日志
+          - pattern: log()
+          - pattern: print()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.2.2.1"
+
+  - id: gbt-39412-6-2-2-2
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.2.2.2】个人信息保护
+    patterns:
+      - pattern-either:
+          - pattern: 数据库
+          - pattern: 存储
+          - pattern: 加密
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.2.2.2"
+
+  - id: gbt-39412-6-3-1-1
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 6.3.1.1】身份鉴别过程中暴露多余信息
+    patterns:
+      - pattern-either:
+          - pattern: 错误信息
+          - pattern: 响应
+          - pattern: message
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.3.1.1"
+
+  - id: gbt-39412-6-3-1-2
+    languages: ['java']
+    severity: ERROR
+    message: 【GB/T 39412-2020 6.3.1.2】身份鉴别被绕过
+    patterns:
+      - pattern-either:
+          - pattern: 认证判断
+          - pattern: 权限检查
+          - pattern: filter
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.3.1.2"
+
+  - id: gbt-39412-6-3-1-3
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.3.1.3】身份鉴别尝试频率限制
+    patterns:
+      - pattern-either:
+          - pattern: 认证
+          - pattern: login
+          - pattern: authenticate
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.3.1.3"
+
+  - id: gbt-39412-6-3-1-4
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 6.3.1.4】多因素认证
+    patterns:
+      - pattern-either:
+          - pattern: MFA
+          - pattern: mfa
+          - pattern: otp
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.3.1.4"

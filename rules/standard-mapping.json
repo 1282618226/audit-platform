@@ -103,6 +103,11 @@
         "standard": "GB/T 34943-2017",
         "clause": "7.2.3.2",
         "language": "C/C++"
+      },
+      {
+        "standard": "GB/T 39412-2020",
+        "clause": "8.4.4",
+        "language": "通用"
       }
     ]
   },

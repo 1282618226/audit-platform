@@ -407,3 +407,211 @@ rules:
       vuln_name: "密码分组链接模式未使用随机初始化矢量"
       category: 安全功能
       cwe: "CWE-329"
+
+  # ═════════════════════════════════════════════════════════════
+  # 新增覆盖规则 (补全13条未覆盖条款)
+  # ═════════════════════════════════════════════════════════════
+
+  # 7.2.1.1 不可控的内存分配
+  - id: gbt-34943-7.2.1.1-uncontrolled-memory-allocation
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.1.1】不可控的内存分配
+    patterns:
+      - pattern-either:
+          - pattern: malloc($REQ_VAL)
+          - pattern: calloc($N, $REQ_VAL)
+          - pattern: new $TYPE[$REQ_VAL]
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.1.1"
+      vuln_name: "不可控的内存分配"
+      category: 行为问题
+
+  # 7.2.2.1 不可信的搜索路径
+  - id: gbt-34943-7.2.2.1-untrusted-search-path
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.2.1】不可信的搜索路径
+    patterns:
+      - pattern-either:
+          - pattern: system($CMD)
+          - pattern: popen($CMD, $MODE)
+          - pattern: execvp($CMD, $ARGS)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.2.1"
+      vuln_name: "不可信的搜索路径"
+      category: 路径错误
+
+  # 7.2.3.10 信息通过服务器日志文件泄露
+  - id: gbt-34943-7.2.3.10-vuln
+    languages: [c, cpp]
+    severity: ERROR
+    message: >
+      【GB/T 34943-2017 7.2.3.10】信息通过服务器日志文件泄露
+    patterns:
+      - pattern-either:
+          - pattern: fprintf($FD, $FMT, $VAR)
+          - pattern: syslog($PRI, $FMT)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.3.10"
+      vuln_name: "信息通过服务器日志文件泄露"
+      category: 数据处理
+
+  # 7.2.3.11 信息通过调试日志文件泄露
+  - id: gbt-34943-7.2.3.11-vuln
+    languages: [c, cpp]
+    severity: ERROR
+    message: >
+      【GB/T 34943-2017 7.2.3.11】信息通过调试日志文件泄露
+    patterns:
+      - pattern-either:
+          - pattern: fprintf(stderr, $FMT, $VAR)
+          - pattern: syslog(LOG_DEBUG, $FMT)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.3.11"
+      vuln_name: "信息通过调试日志文件泄露"
+      category: 数据处理
+
+  # 7.2.3.12 未检查的输入作为循环条件
+  - id: gbt-34943-7.2.3.12-unchecked-loop-condition
+    languages: [c, cpp]
+    severity: ERROR
+    message: >
+      【GB/T 34943-2017 7.2.3.12】未检查的输入作为循环条件
+    patterns:
+      - pattern-either:
+          - pattern: malloc($N)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.3.12"
+      vuln_name: "未检查的输入作为循环条件"
+      category: 数据处理
+
+  # 7.2.7.2 存储可恢复的口令
+  - id: gbt-34943-7.2.7.2-reversible-password-storage
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.7.2】存储可恢复的口令
+    patterns:
+      - pattern-either:
+          - pattern: EVP_EncryptInit_ex($CTX, $CIPHER)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.7.2"
+      vuln_name: "存储可恢复的口令"
+      category: 安全功能
+
+  # 7.2.7.6 可逆的散列算法
+  - id: gbt-34943-7.2.7.6-weak-hash
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.7.6】可逆的散列算法
+    patterns:
+      - pattern-either:
+          - pattern: MD5($DATA, $LEN, $OUT)
+          - pattern: SHA1($DATA, $LEN, $OUT)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.7.6"
+      vuln_name: "可逆的散列算法"
+      category: 安全功能
+
+  # 7.2.7.9 安全关键的行为依赖反向域名解析
+  - id: gbt-34943-7.2.7.9-reverse-dns-auth
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.7.9】安全关键的行为依赖反向域名解析
+    patterns:
+      - pattern-either:
+          - pattern: gethostbyaddr($ADDR, $LEN, $TYPE)
+          - pattern: getnameinfo($ADDR, $LEN, $HOST, $HLEN)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.7.9"
+      vuln_name: "安全关键的行为依赖反向域名解析"
+      category: 安全功能
+
+  # 7.2.7.10 没有要求使用强口令
+  - id: gbt-34943-7.2.7.10-no-strong-password
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.7.10】没有要求使用强口令
+    patterns:
+      - pattern-either:
+          - pattern: strlen($PW)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.7.10"
+      vuln_name: "没有要求使用强口令"
+      category: 安全功能
+
+  # 7.2.7.11 没有对口令域进行掩饰
+  - id: gbt-34943-7.2.7.11-no-password-masking
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.7.11】没有对口令域进行掩饰
+    patterns:
+      - pattern-either:
+          - pattern: getpass($PROMPT)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.7.11"
+      vuln_name: "没有对口令域进行掩饰"
+      category: 安全功能
+
+  # 7.2.7.12 通过用户控制的SQL关键字绕过授权
+  - id: gbt-34943-7.2.7.12-vulnsql
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.7.12】通过用户控制的SQL关键字绕过授权
+    patterns:
+      - pattern-either:
+          - pattern: sprintf($SQL, $FMT, $INPUT)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.7.12"
+      vuln_name: "通过用户控制的SQL关键字绕过授权"
+      category: 安全功能
+
+  # 7.2.7.13 未使用盐值计算散列值
+  - id: gbt-34943-7.2.7.13-hash-without-salt
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.7.13】未使用盐值计算散列值
+    patterns:
+      - pattern-either:
+          - pattern: SHA256($DATA, $LEN, $OUT)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.7.13"
+      vuln_name: "未使用盐值计算散列值"
+      category: 安全功能
+
+  # 7.2.7.14 RSA算法未使用最优非对称加密填充
+  - id: gbt-34943-7.2.7.14-rsa-without-oaep-padding
+    languages: [c, cpp]
+    severity: WARNING
+    message: >
+      【GB/T 34943-2017 7.2.7.14】RSA算法未使用最优非对称加密填充
+    patterns:
+      - pattern-either:
+          - pattern: RSA_public_encrypt($LEN, $IN, $OUT, $KEY, $PADDING)
+    metadata:
+      gb_standard: GB/T 34943-2017
+      gb_clause: "7.2.7.14"
+      vuln_name: "RSA算法未使用最优非对称加密填充"
+      category: 安全功能
+
