@@ -130,5 +130,329 @@
     "gb_standard": "GB/T 34943-2017",
     "vuln_name": "不可信的搜索路径",
     "cwe": "CWE-427"
+  },
+  "java/ql/src/Security/CWE/CWE-089/SqlTainted.ql": {
+    "gb_clause": "6.2.3.4",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "SQL注入",
+    "cwe": "CWE-89"
+  },
+  "java/ql/src/Security/CWE/CWE-089/SqlConcatenated.ql": {
+    "gb_clause": "6.2.3.4",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "SQL注入（字符串拼接）",
+    "cwe": "CWE-89"
+  },
+  "java/ql/src/Security/CWE/CWE-078/ExecTainted.ql": {
+    "gb_clause": "6.2.3.3",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "命令注入",
+    "cwe": "CWE-78"
+  },
+  "java/ql/src/Security/CWE/CWE-078/ExecRelative.ql": {
+    "gb_clause": "6.2.3.3",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "命令注入（相对路径）",
+    "cwe": "CWE-78"
+  },
+  "java/ql/src/Security/CWE/CWE-078/ExecTaintedEnvironment.ql": {
+    "gb_clause": "6.2.3.3",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "命令注入（环境变量）",
+    "cwe": "CWE-78"
+  },
+  "java/ql/src/Security/CWE/CWE-079/XSS.ql": {
+    "gb_clause": "6.2.8.1",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "跨站脚本",
+    "cwe": "CWE-79"
+  },
+  "java/ql/src/Security/CWE/CWE-022/TaintedPath.ql": {
+    "gb_clause": "6.2.3.2",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "路径遍历",
+    "cwe": "CWE-22"
+  },
+  "java/ql/src/Security/CWE/CWE-022/ZipSlip.ql": {
+    "gb_clause": "6.2.3.2",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "Zip Slip路径遍历",
+    "cwe": "CWE-22"
+  },
+  "java/ql/src/Security/CWE/CWE-094/GroovyInjection.ql": {
+    "gb_clause": "6.2.3.5",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "代码注入（Groovy）",
+    "cwe": "CWE-94"
+  },
+  "java/ql/src/Security/CWE/CWE-094/InsecureBeanValidation.ql": {
+    "gb_clause": "6.2.3.5",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "Bean验证注入",
+    "cwe": "CWE-94"
+  },
+  "java/ql/src/Security/CWE/CWE-090/LdapInjection.ql": {
+    "gb_clause": "6.2.3.12",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "LDAP注入",
+    "cwe": "CWE-90"
+  },
+  "java/ql/src/Security/CWE/CWE-643/XPathInjection.ql": {
+    "gb_clause": "6.2.3.12",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "XPath注入",
+    "cwe": "CWE-643"
+  },
+  "java/ql/src/Security/CWE/CWE-917/OgnlInjection.ql": {
+    "gb_clause": "6.2.3.5",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "OGNL表达式注入",
+    "cwe": "CWE-917"
+  },
+  "java/ql/src/Security/CWE/CWE-611/XXE.ql": {
+    "gb_clause": "6.2.3.12",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "XML外部实体注入",
+    "cwe": "CWE-611"
+  },
+  "java/ql/src/Security/CWE/CWE-918/RequestForgery.ql": {
+    "gb_clause": "6.2.8.2",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "SSRF服务端请求伪造",
+    "cwe": "CWE-918"
+  },
+  "java/ql/src/Security/CWE/CWE-113/ResponseSplitting.ql": {
+    "gb_clause": "6.2.8.3",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "HTTP响应拆分",
+    "cwe": "CWE-113"
+  },
+  "java/ql/src/Security/CWE/CWE-113/NettyResponseSplitting.ql": {
+    "gb_clause": "6.2.8.3",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "Netty响应拆分",
+    "cwe": "CWE-113"
+  },
+  "java/ql/src/Security/CWE/CWE-117/LogInjection.ql": {
+    "gb_clause": "6.2.3.8",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "日志注入",
+    "cwe": "CWE-117"
+  },
+  "java/ql/src/Security/CWE/CWE-326/InsufficientKeySize.ql": {
+    "gb_clause": "6.2.6.7",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "使用已破解的加密算法（密钥长度不足）",
+    "cwe": "CWE-326"
+  },
+  "java/ql/src/Security/CWE/CWE-327/BrokenCryptoAlgorithm.ql": {
+    "gb_clause": "6.2.6.7",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "使用已破解的加密算法",
+    "cwe": "CWE-327"
+  },
+  "java/ql/src/Security/CWE/CWE-327/MaybeBrokenCryptoAlgorithm.ql": {
+    "gb_clause": "6.2.6.7",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "可能的安全加密算法问题",
+    "cwe": "CWE-327"
+  },
+  "java/ql/src/Security/CWE/CWE-330/InsecureRandomness.ql": {
+    "gb_clause": "6.2.6.10",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "不充分的随机数",
+    "cwe": "CWE-330"
+  },
+  "java/ql/src/Security/CWE/CWE-522/InsecureBasicAuth.ql": {
+    "gb_clause": "6.2.6.1",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "明文传输认证信息",
+    "cwe": "CWE-522"
+  },
+  "java/ql/src/Security/CWE/CWE-522/InsecureLdapAuth.ql": {
+    "gb_clause": "6.2.6.1",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "LDAP认证信息明文传输",
+    "cwe": "CWE-522"
+  },
+  "java/ql/src/Security/CWE/CWE-798/HardcodedCredentialsApiCall.ql": {
+    "gb_clause": "6.2.6.3",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "口令硬编码（API调用）",
+    "cwe": "CWE-798"
+  },
+  "java/ql/src/Security/CWE/CWE-798/HardcodedCredentialsComparison.ql": {
+    "gb_clause": "6.2.6.3",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "口令硬编码（比较）",
+    "cwe": "CWE-798"
+  },
+  "java/ql/src/Security/CWE/CWE-798/HardcodedCredentialsSourceCall.ql": {
+    "gb_clause": "6.2.6.3",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "口令硬编码（源码中）",
+    "cwe": "CWE-798"
+  },
+  "java/ql/src/Security/CWE/CWE-614/InsecureCookie.ql": {
+    "gb_clause": "6.2.6.17",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "Cookie未设置安全属性",
+    "cwe": "CWE-614"
+  },
+  "java/ql/src/Security/CWE/CWE-295/InsecureTrustManager.ql": {
+    "gb_clause": "6.2.6.6",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "不安全的证书信任管理器",
+    "cwe": "CWE-295"
+  },
+  "java/ql/src/Security/CWE/CWE-297/UnsafeHostnameVerification.ql": {
+    "gb_clause": "6.2.6.6",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "不安全的主机名验证",
+    "cwe": "CWE-297"
+  },
+  "java/ql/src/Security/CWE/CWE-319/HttpsUrls.ql": {
+    "gb_clause": "6.2.6.6",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "敏感信息明文传输",
+    "cwe": "CWE-319"
+  },
+  "java/ql/src/Security/CWE/CWE-319/UseSSL.ql": {
+    "gb_clause": "6.2.6.6",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "未使用SSL",
+    "cwe": "CWE-319"
+  },
+  "java/ql/src/Security/CWE/CWE-352/CsrfUnprotectedRequestType.ql": {
+    "gb_clause": "6.2.8.2",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "跨站请求伪造",
+    "cwe": "CWE-352"
+  },
+  "java/ql/src/Security/CWE/CWE-352/SpringCSRFProtection.ql": {
+    "gb_clause": "6.2.8.2",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "Spring CSRF防护缺失",
+    "cwe": "CWE-352"
+  },
+  "java/ql/src/Security/CWE/CWE-601/UrlRedirect.ql": {
+    "gb_clause": "6.2.8.4",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "开放重定向",
+    "cwe": "CWE-601"
+  },
+  "java/ql/src/Security/CWE/CWE-502/UnsafeDeserialization.ql": {
+    "gb_clause": "6.2.5.1",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "不安全的反序列化",
+    "cwe": "CWE-502"
+  },
+  "java/ql/src/Security/CWE/CWE-807/ConditionalBypass.ql": {
+    "gb_clause": "6.2.6.4",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "依赖不可信条件绕过认证",
+    "cwe": "CWE-807"
+  },
+  "java/ql/src/Security/CWE/CWE-807/TaintedPermissionsCheck.ql": {
+    "gb_clause": "6.2.6.4",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "受污染的权限检查",
+    "cwe": "CWE-807"
+  },
+  "java/ql/src/Security/CWE/CWE-020/UntrustedDataToExternalAPI.ql": {
+    "gb_clause": "6.2.3.1",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "不可信数据传给外部API",
+    "cwe": "CWE-20"
+  },
+  "java/ql/src/Security/CWE/CWE-020/ExternalAPIsUsedWithUntrustedData.ql": {
+    "gb_clause": "6.2.3.1",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "外部API使用不可信数据",
+    "cwe": "CWE-20"
+  },
+  "java/ql/src/Security/CWE/CWE-312/CleartextStorageAndroidDatabase.ql": {
+    "gb_clause": "6.2.6.1",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "明文存储敏感数据（数据库）",
+    "cwe": "CWE-312"
+  },
+  "java/ql/src/Security/CWE/CWE-312/CleartextStorageAndroidFilesystem.ql": {
+    "gb_clause": "6.2.6.1",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "明文存储敏感数据（文件系统）",
+    "cwe": "CWE-312"
+  },
+  "java/ql/src/Security/CWE/CWE-829/InsecureDependencyResolution.ql": {
+    "gb_clause": "6.2.2.1",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "不安全的依赖解析",
+    "cwe": "CWE-829"
+  },
+  "java/ql/src/Security/CWE/CWE-833/LockOrderInconsistency.ql": {
+    "gb_clause": "6.2.7.1",
+    "gb_standard": "GB/T 34944-2017",
+    "vuln_name": "锁顺序不一致",
+    "cwe": "CWE-833"
+  },
+  "java/ql/src/Security/CWE/CWE-134/FormatString.ql": {
+    "gb_clause": "7.3.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "格式化字符串",
+    "cwe": "CWE-134"
+  },
+  "java/ql/src/Security/CWE/CWE-190/ArithmeticTainted.ql": {
+    "gb_clause": "8.1.9",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "算法逻辑问题",
+    "cwe": "CWE-190"
+  },
+  "java/ql/src/Security/CWE/CWE-835/InfiniteLoop.ql": {
+    "gb_clause": "8.1.8",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "无限循环",
+    "cwe": "CWE-835"
+  },
+  "java/ql/src/Security/CWE/CWE-367/TOCTOU.ql": {
+    "gb_clause": "7.2.3",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "竞态条件",
+    "cwe": "CWE-367"
+  },
+  "java/ql/src/Security/CWE/CWE-676/DangerousFunction.ql": {
+    "gb_clause": "8.2.6",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "危险函数调用",
+    "cwe": "CWE-676"
+  },
+  "java/ql/src/Security/CWE/CWE-489/ActiveDebugCode.ql": {
+    "gb_clause": "9.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "遗留调试代码",
+    "cwe": "CWE-489"
+  },
+  "java/ql/src/Security/CWE/CWE-501/TrustBoundaryViolation.ql": {
+    "gb_clause": "6.1.1.15",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "数据信任边界违背",
+    "cwe": "CWE-501"
+  },
+  "java/ql/src/Security/CWE/CWE-524/CleartextStorage.ql": {
+    "gb_clause": "6.2.2.1",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "敏感信息暴露",
+    "cwe": "CWE-524"
+  },
+  "java/ql/src/Security/CWE/CWE-532/InfoExposureLog.ql": {
+    "gb_clause": "6.4.2",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "日志信息丢失或遗漏",
+    "cwe": "CWE-532"
+  },
+  "java/ql/src/Security/CWE/CWE-552/UnsafeFileUpload.ql": {
+    "gb_clause": "8.4.2",
+    "gb_standard": "GB/T 39412-2020",
+    "vuln_name": "不安全的文件上传",
+    "cwe": "CWE-552"
   }
 }
