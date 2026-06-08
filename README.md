@@ -4,17 +4,19 @@
 
 ## 覆盖状态
 
-| 标准 | 覆盖 | 规则数 |
-|------|------|--------|
-| GB/T 34944-2017 (Java 漏洞) | **44/44** ✅ 全覆盖 | 51 条 Semgrep |
-| GB/T 34943-2017 (C/C++ 漏洞) | **32/32** ✅ 全覆盖 | 33 条 Semgrep |
-| GB/T 39412-2020 (审计指标) | **97/97** ✅ 全覆盖 | 100 条 Semgrep |
-| **总计** | **173/173** | **184 条规则 + 15 条 CodeQL 查询** |
+| 标准 | 总条款 | Semgrep | CodeQL | 双覆盖 |
+|------|--------|---------|--------|--------|
+| GB/T 34944-2017 (Java 漏洞) | 42 | 29 | 25 | 12 |
+| GB/T 34943-2017 (C/C++ 漏洞) | 32 | **32** ✅ | 1 | 1 |
+| GB/T 39412-2020 (审计指标) | 97 | **97** ✅ | 31 | 31 |
+| **总计** | **171** | **158** | **57** | **44** |
+
+详细信息见 [docs/coverage-matrix.md](docs/coverage-matrix.md)。
 
 ## 功能
 
 - **Semgrep SAST** — 184 条规则覆盖三项国标全部条款，含 taint mode 数据流追踪
-- **CodeQL** — 15 条 QL 查询（8 Java + 7 C++），含数据流分析
+- **CodeQL** — 157 条内置查询映射（69 C/C++ + 88 Java），含数据流分析
 - **LLM 辅助审查** — 三级降级策略（LiteLLM → DeepSeek 直连 → 离线模式）
 - **入口点+爆发点追踪** — taint mode 规则自动提取数据流入口和爆发点，展示在 CNAS 报告中
 - **跨标准展开** — 一条命中自动关联多国标条款号（56 条映射）
@@ -85,15 +87,17 @@ audit-platform/
 │   ├── report_generator.py  # CNAS 格式 DOCX/JSON/MD 报告
 │   └── web/                 # FastAPI Web 服务
 ├── rules/
-│   ├── semgrep/java/        # Java Semgrep 规则（51条，含 taint mode）
+│   ├── semgrep/java/        # Java Semgrep 规则（49条，含 taint mode）
 │   ├── semgrep/cpp/         # C/C++ Semgrep 规则（33条）
 │   ├── semgrep/gbt-39412/   # GB/T 39412 审计指标规则（100条+评估）
-│   ├── codeql/java/         # Java CodeQL 查询（8条）
-│   ├── codeql/cpp/          # C/C++ CodeQL 查询（7条）
+│   ├── codeql/java/         # Java CodeQL 自定义查询（8条）
+│   ├── codeql/cpp/          # C/C++ CodeQL 自定义查询（7条）
+│   ├── codeql/codeql-to-gbt-mapping.json  # CodeQL 内置查询 → GB/T 映射（157条）
 │   └── standard-mapping.json # 跨标准条款映射（56条）
 ├── knowledge/
-│   └── knowledge_base.json  # 三项国标知识库（173条）
+│   └── knowledge_base.json  # 三项国标知识库（171条）
 ├── docs/
+│   ├── coverage-matrix.md   # 标准条款覆盖矩阵
 │   ├── windows-deployment.md # Windows 部署指南
 │   └── hermes-migration/     # Hermes 配置迁移
 └── tests/                   # 269 个单元测试
