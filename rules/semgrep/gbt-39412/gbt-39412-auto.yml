@@ -734,3 +734,530 @@ rules:
     metadata:
       gb_standard: GB/T 39412-2020
       gb_clause: "8.5.4"
+
+  # 7.1.1 泛型和非泛型数据类型
+  - id: gbt-39412-7-1-1
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 7.1.1】泛型和非泛型数据类型
+    patterns:
+      - pattern-either:
+          - pattern: List $L = new ArrayList()
+          - pattern: Map $M = new HashMap()
+          - pattern: $METHOD(List $P)
+          - pattern: $METHOD(Map $P)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.1.1"
+
+  # 7.1.4 类私有可变成员的引用
+  - id: gbt-39412-7-1-4
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 7.1.4】类私有可变成员的引用
+    patterns:
+      - pattern-either:
+          - pattern: return this.$ARR
+          - pattern: return $ARR
+          - pattern: return this.$LIST
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.1.4"
+
+  # 7.1.5 存储不可序列化的对象到磁盘
+  - id: gbt-39412-7-1-5
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 7.1.5】存储不可序列化的对象到磁盘
+    patterns:
+      - pattern-either:
+          - pattern: $OOS.writeObject($OBJ)
+          - pattern: $SESSION.setAttribute($K, $OBJ)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.1.5"
+
+  # 7.2.5 释放线程专有对象
+  - id: gbt-39412-7-2-5
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 7.2.5】释放线程专有对象
+    patterns:
+      - pattern-either:
+          - pattern: ThreadLocal $TL = new ThreadLocal()
+          - pattern: $TL.set($V)
+          - pattern: ThreadLocal.withInitial(...)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.2.5"
+
+  # 7.3.6 暴露危险的方法或函数
+  - id: gbt-39412-7-3-6
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 7.3.6】暴露危险的方法或函数
+    patterns:
+      - pattern-either:
+          - pattern: Runtime.getRuntime().exec(...)
+          - pattern: new ProcessBuilder(...).start()
+          - pattern: System.exit(...)
+          - pattern: $FILE.delete()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.3.6"
+
+  # 6.3.2.2 明文存储口令
+  - id: gbt-39412-6-3-2-2
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 6.3.2.2】明文存储口令
+    patterns:
+      - pattern-either:
+          - pattern: $PS.setString($I, $PWD)
+          - pattern: $JDBC.update($SQL)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.3.2.2"
+
+  # 6.3.3.1 权限访问控制
+  - id: gbt-39412-6-3-3-1
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 6.3.3.1】权限访问控制
+    patterns:
+      - pattern-either:
+          - pattern: $REQ.getParameter(...)
+          - pattern: $REQ.getSession().setAttribute(...)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.3.3.1"
+
+  # 6.3.3.2 未加限制的外部可访问锁
+  - id: gbt-39412-6-3-3-2
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 6.3.3.2】未加限制的外部可访问锁
+    patterns:
+      - pattern-either:
+          - pattern: public static $TYPE $LOCK
+          - pattern: public static ReentrantLock $L = new ReentrantLock()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "6.3.3.2"
+
+  # 7.1.3 类比较
+  - id: gbt-39412-7-1-3
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 7.1.3】类比较
+    patterns:
+      - pattern-either:
+          - pattern: $X.getClass().getName()
+          - pattern: $X.getClass().getCanonicalName()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.1.3"
+
+  # 7.2.1 不同会话间信息泄露
+  - id: gbt-39412-7-2-1
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 7.2.1】不同会话间信息泄露
+    patterns:
+      - pattern-either:
+          - pattern: static $TYPE $PASSWORD
+          - pattern: static $TYPE $TOKEN
+          - pattern: static Map $CACHE = new HashMap()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.2.1"
+
+  # 7.2.2 发布未完成初始化的对象
+  - id: gbt-39412-7-2-2
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 7.2.2】发布未完成初始化的对象
+    patterns:
+      - pattern-either:
+          - pattern: $THIS.start()
+          - pattern: $THIS.run()
+          - pattern: $EXT.start()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.2.2"
+
+  # 7.2.4 子进程访问父进程敏感资源
+  - id: gbt-39412-7-2-4
+    languages: ['c', 'cpp']
+    severity: WARNING
+    message: 【GB/T 39412-2020 7.2.4】子进程访问父进程敏感资源
+    patterns:
+      - pattern-either:
+          - pattern: fork()
+          - pattern: pid_t $P = fork()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.2.4"
+
+  # 7.3.1 格式化字符串
+  - id: gbt-39412-7-3-1
+    languages: ['c', 'cpp']
+    severity: WARNING
+    message: 【GB/T 39412-2020 7.3.1】格式化字符串
+    patterns:
+      - pattern-either:
+          - pattern: printf($FMT)
+          - pattern: fprintf($FD, $FMT)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.3.1"
+
+  # 7.6.1 编译环境安全
+  - id: gbt-39412-7-6-1
+    languages: ['generic']
+    severity: INFO
+    message: 【GB/T 39412-2020 7.6.1】编译环境安全
+    patterns:
+      - pattern-either:
+          - pattern: CFLAGS
+          - pattern: CXXFLAGS
+          - pattern: -fstack-protector
+          - pattern: -D_FORTIFY_SOURCE
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.6.1"
+
+  # 7.6.2 链接环境安全
+  - id: gbt-39412-7-6-2
+    languages: ['generic']
+    severity: INFO
+    message: 【GB/T 39412-2020 7.6.2】链接环境安全
+    patterns:
+      - pattern-either:
+          - pattern: -Wl,-rpath
+          - pattern: LD_LIBRARY_PATH
+          - pattern: RPATH
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.6.2"
+
+  # 8.1.4 引用计数的更新不正确
+  - id: gbt-39412-8-1-4
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 8.1.4】引用计数的更新不正确
+    patterns:
+      - pattern-either:
+          - pattern: $ENV->NewGlobalRef($OBJ)
+          - pattern: NewGlobalRef($OBJ)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.1.4"
+
+  # 8.1.6 将资源暴露给非授权范围
+  - id: gbt-39412-8-1-6
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 8.1.6】将资源暴露给非授权范围
+    patterns:
+      - pattern-either:
+          - pattern: chmod($PATH, 0777)
+          - pattern: $FILE.setReadable(true, false)
+          - pattern: $FILE.setWritable(true, false)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.1.6"
+
+  # 8.1.9 算法复杂度攻击
+  - id: gbt-39412-8-1-9
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 8.1.9】算法复杂度攻击
+    patterns:
+      - pattern-either:
+          - pattern: new $TYPE[$REQ.getParameter(...)]
+          - pattern: Pattern.compile($REQ.getParameter(...))
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.1.9"
+
+  # 8.1.10 早期放大攻击
+  - id: gbt-39412-8-1-10
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 8.1.10】早期放大攻击
+    patterns:
+      - pattern-either:
+          - pattern: Cipher.getInstance($ALG).doFinal($BIGDATA)
+          - pattern: new FileInputStream($BIGFILE)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.1.10"
+
+  # 8.2.5 数据/内存布局
+  - id: gbt-39412-8-2-5
+    languages: ['c', 'cpp']
+    severity: WARNING
+    message: 【GB/T 39412-2020 8.2.5】数据/内存布局
+    patterns:
+      - pattern-either:
+          - pattern: memcpy($DST, $SRC, sizeof($SRC))
+          - pattern: memcpy($DST, &$S, sizeof($S))
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.2.5"
+
+  # 8.3.1 及时释放数据库资源
+  - id: gbt-39412-8-3-1
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 8.3.1】及时释放数据库资源
+    patterns:
+      - pattern-either:
+          - pattern: $CONN.createStatement()
+          - pattern: $STMT.executeQuery($Q)
+          - pattern: ResultSet $RS = $STMT.executeQuery(...)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.3.1"
+
+  # 8.3.2 SQL注入
+  - id: gbt-39412-8-3-2
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 8.3.2】SQL注入
+    patterns:
+      - pattern-either:
+          - pattern: $STMT.executeQuery("..." + $VAR + "...")
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.3.2"
+
+  # 8.4.1 过期的文件描述符
+  - id: gbt-39412-8-4-1
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 8.4.1】过期的文件描述符
+    patterns:
+      - pattern-either:
+          - pattern: $FD.close()
+          - pattern: $SOCKET.close()
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.4.1"
+
+  # 8.4.2 不安全的临时文件
+  - id: gbt-39412-8-4-2
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 8.4.2】不安全的临时文件
+    patterns:
+      - pattern-either:
+          - pattern: File.createTempFile($PFX, $SFX)
+          - pattern: $F.createTempFile($PFX, $SFX)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.4.2"
+
+  # 8.4.3 文件描述符穷尽
+  - id: gbt-39412-8-4-3
+    languages: ['c', 'cpp']
+    severity: WARNING
+    message: 【GB/T 39412-2020 8.4.3】文件描述符穷尽
+    patterns:
+      - pattern-either:
+          - pattern: open($PATH, $FLAGS)
+          - pattern: fopen($PATH, $MODE)
+          - pattern: socket($AF, $TYPE, $PROTO)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.4.3"
+
+  # 8.4.4 路径遍历
+  - id: gbt-39412-8-4-4
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 8.4.4】路径遍历
+    patterns:
+      - pattern-either:
+          - pattern: new File($REQ.getParameter(...))
+          - pattern: new FileInputStream($REQ.getParameter(...))
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.4.4"
+
+  # 8.4.5 及时释放文件系统资源
+  - id: gbt-39412-8-4-5
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 8.4.5】及时释放文件系统资源
+    patterns:
+      - pattern-either:
+          - pattern: new FileInputStream($F)
+          - pattern: new FileOutputStream($F)
+          - pattern: new BufferedReader($R)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.4.5"
+
+  # 8.5.1 端口多重绑定
+  - id: gbt-39412-8-5-1
+    languages: ['c', 'cpp']
+    severity: WARNING
+    message: 【GB/T 39412-2020 8.5.1】端口多重绑定
+    patterns:
+      - pattern-either:
+          - pattern: bind($SOCK, $ADDR, $LEN)
+          - pattern: setsockopt($SOCK, SOL_SOCKET, SO_REUSEADDR)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.5.1"
+
+  # 8.5.2 对网络消息容量的控制
+  - id: gbt-39412-8-5-2
+    languages: ['c', 'cpp']
+    severity: WARNING
+    message: 【GB/T 39412-2020 8.5.2】对网络消息容量的控制
+    patterns:
+      - pattern-either:
+          - pattern: recv($SOCK, $BUF, $LEN, $FLAGS)
+          - pattern: read($FD, $BUF, $LEN)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.5.2"
+
+  # 8.5.3 字节序使用
+  - id: gbt-39412-8-5-3
+    languages: ['c', 'cpp']
+    severity: WARNING
+    message: 【GB/T 39412-2020 8.5.3】字节序使用
+    patterns:
+      - pattern-either:
+          - pattern: ntohl($VAL)
+          - pattern: htonl($VAL)
+          - pattern: ntohs($VAL)
+          - pattern: htons($VAL)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.5.3"
+
+  # 8.5.4 通信安全
+  - id: gbt-39412-8-5-4
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 8.5.4】通信安全
+    patterns:
+      - pattern-either:
+          - pattern: new URL("http://" + $HOST)
+          - pattern: URL("http://" + $URL)
+          - pattern: $CONN = URL("http://...")
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "8.5.4"
+
+  # 9.1 遗留调试代码
+  - id: gbt-39412-9-1
+    languages: ['java']
+    severity: INFO
+    message: 【GB/T 39412-2020 9.1】遗留调试代码
+    patterns:
+      - pattern-either:
+          - pattern: System.out.println($VAR)
+          - pattern: $E.printStackTrace()
+          - pattern: Logger.getLogger($C).debug($VAR)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "9.1"
+
+  # 9.3 保护重要配置信息
+  - id: gbt-39412-9-3
+    languages: ['java']
+    severity: WARNING
+    message: 【GB/T 39412-2020 9.3】保护重要配置信息
+    patterns:
+      - pattern-either:
+          - pattern: $PROPS.getProperty($KEY)
+          - pattern: System.getProperty($KEY)
+          - pattern: $ENV.get($KEY)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "9.3"
+
+  # 7.5.1 不兼容的指针类型
+  - id: gbt-39412-7-5-1
+    languages: ['c', 'cpp']
+    severity: WARNING
+    message: 【GB/T 39412-2020 7.5.1】不兼容的指针类型
+    patterns:
+      - pattern-either:
+          - pattern: int* $P = ($CAST) $VAL
+          - pattern: void* $P = $VAL
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.5.1"
+
+  # 7.5.2 利用指针减法确定内存大小
+  - id: gbt-39412-7-5-2
+    languages: ['c', 'cpp']
+    severity: WARNING
+    message: 【GB/T 39412-2020 7.5.2】利用指针减法确定内存大小
+    patterns:
+      - pattern-either:
+          - pattern: ($PTR2 - $PTR1) * sizeof($TYPE)
+          - pattern: sizeof($TYPE) * ($PTR2 - $PTR1)
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.5.2"
+
+  # 7.5.3 将固定地址赋值给指针
+  - id: gbt-39412-7-5-3
+    languages: ['c', 'cpp']
+    severity: ERROR
+    message: 【GB/T 39412-2020 7.5.3】将固定地址赋值给指针
+    patterns:
+      - pattern-either:
+          - pattern: int* $P = (int*)0x
+          - pattern: char* $P = (char*)0x
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.5.3"
+
+  # 7.5.4 试图访问非结构体类型指针的数据域
+  - id: gbt-39412-7-5-4
+    languages: ['c', 'cpp']
+    severity: WARNING
+    message: 【GB/T 39412-2020 7.5.4】试图访问非结构体类型指针的数据域
+    patterns:
+      - pattern-either:
+          - pattern: $P->$FIELD
+          - pattern: ($TYPE*)$P->$FIELD
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.5.4"
+
+  # 7.5.5 指针偏移越界
+  - id: gbt-39412-7-5-5
+    languages: ['c', 'cpp']
+    severity: WARNING
+    message: 【GB/T 39412-2020 7.5.5】指针偏移越界
+    patterns:
+      - pattern-either:
+          - pattern: $ARR[$IDX]
+          - pattern: $PTR + $OFFSET
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.5.5"
+
+  # 7.5.6 无效指针使用
+  - id: gbt-39412-7-5-6
+    languages: ['c', 'cpp']
+    severity: ERROR
+    message: 【GB/T 39412-2020 7.5.6】无效指针使用
+    patterns:
+      - pattern-either:
+          - pattern: free($PTR)
+          - pattern: delete $PTR
+          - pattern: $PTR->$FIELD
+    metadata:
+      gb_standard: GB/T 39412-2020
+      gb_clause: "7.5.6"

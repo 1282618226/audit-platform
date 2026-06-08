@@ -18,6 +18,9 @@ rules:
     metadata:
       gb_standard: GB/T 34943-2017
       gb_clause: "7.2.3.6"
+      gb_clause: "8.2.8"
+      gb_clause: "8.2.7"
+      gb_clause: "8.2.6"
       vuln_name: "缓冲区溢出"
       category: 数据处理
       cwe: "CWE-120"
